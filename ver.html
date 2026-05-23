@@ -1,0 +1,505 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<title>ESTADIO APUESTA - MUNDIAL</title>
+
+<style>
+    :root { 
+        --gold: #FFD700; 
+        --green: #4ade80; 
+    }
+    
+    * { 
+        margin: 0; 
+        padding: 0; 
+        box-sizing: border-box; 
+    }
+    
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        min-height: 100vh;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        overflow: hidden;
+    }
+
+    /* Efecto Estadio de fondo */
+    .bg-stadium {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.8)), 
+                    url('https://i.ibb.co/Cty52yx/Whats-App-Image-2024-12-11-at-9-33-34-PM.jpg');
+        background-size: cover;
+        background-position: center;
+        transition: transform 1.2s ease-in-out, filter 1.2s ease-in-out;
+        z-index: -1;
+    }
+
+    .entering .bg-stadium { 
+        transform: scale(1.18); 
+        filter: blur(3px); 
+    }
+
+    .container { 
+        width: 100%; 
+        max-width: 500px; 
+        padding: 20px; 
+        transition: all 0.5s; 
+    }
+    
+    .step { 
+        display: none; 
+        opacity: 0; 
+        transform: translateY(20px); 
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .step.active { 
+        display: block; 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+
+    /* Pantalla de Inicio */
+    .hero-card { 
+        text-align: center; 
+        animation: fadeInUp 0.8s ease;
+    }
+    
+    .hero-title { 
+        font-size: 2.5rem; 
+        color: var(--gold); 
+        margin-bottom: 10px; 
+        font-weight: 900; 
+        text-shadow: 0 0 15px rgba(255,215,0,0.3);
+    }
+    
+    .live-badge {
+        display: inline-block;
+        background: #ff2d2d;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.05); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Juego */
+    .game-card { 
+        background: rgba(0,0,0,0.85); 
+        backdrop-filter: blur(10px); 
+        border-radius: 30px; 
+        padding: 25px; 
+        border: 1px solid rgba(255,215,0,0.2);
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 1.2rem;
+        color: var(--gold);
+        margin-bottom: 5px;
+    }
+    
+    .section-subtitle {
+        text-align: center;
+        font-size: 0.8rem;
+        color: #aaa;
+        margin-bottom: 20px;
+    }
+    
+    .options-grid { 
+        display: grid; 
+        grid-template-columns: 1fr 1fr; 
+        gap: 15px; 
+        margin: 20px 0; 
+    }
+    
+    .option-card {
+        background: rgba(255,255,255,0.05);
+        border: 2px solid rgba(255,215,0,0.2);
+        border-radius: 20px;
+        padding: 18px 12px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .option-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--gold);
+        background: rgba(255,215,0,0.08);
+    }
+    
+    .option-card.selected { 
+        border-color: var(--gold); 
+        background: rgba(255,215,0,0.15);
+        transform: scale(1.02);
+        box-shadow: 0 0 15px rgba(255,215,0,0.3);
+    }
+    
+    /* NUEVO CSS para los íconos SVG */
+    .option-icon {
+        width: 32px;
+        height: 32px;
+        margin: 0 auto 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+    
+    .option-icon svg {
+        width: 100%;
+        height: 100%;
+        stroke: currentColor;
+        fill: none;
+    }
+    
+    .option-card.selected .option-icon {
+        color: var(--gold);
+    }
+    
+    .option-name {
+        font-size: 0.85rem;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+    
+    .price { 
+        font-size: 1.8rem; 
+        font-weight: bold; 
+        color: var(--gold); 
+        display: block;
+    }
+    
+    .odds-info { 
+        font-size: 0.7rem; 
+        color: #4ade80; 
+        margin-top: 5px;
+    }
+    
+    .dynamic-note {
+        text-align: center;
+        font-size: 0.65rem;
+        color: #888;
+        margin: 15px 0 5px;
+    }
+    
+    button {
+        width: 100%;
+        padding: 16px;
+        border-radius: 50px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    button:active {
+        transform: scale(0.97);
+    }
+    
+    .btn-main { 
+        background: linear-gradient(95deg, var(--gold), #FFA500);
+        color: #000; 
+        box-shadow: 0 5px 20px rgba(255,215,0,0.3);
+    }
+    
+    .btn-main:hover { 
+        transform: scale(1.02);
+        box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+    }
+    
+    /* Resultado */
+    .result-card { 
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(10px);
+        border-radius: 30px; 
+        padding: 25px; 
+        text-align: center;
+        border: 1px solid rgba(255,215,0,0.2);
+    }
+    
+    .result-title {
+        color: var(--gold);
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .summary { 
+        background: rgba(255,255,255,0.08); 
+        border-radius: 20px; 
+        padding: 18px; 
+        margin: 20px 0; 
+        text-align: left;
+        line-height: 1.6;
+    }
+    
+    .summary p {
+        margin: 10px 0;
+    }
+    
+    .btn-whatsapp { 
+        background: #25D366; 
+        color: white;
+        margin-bottom: 12px;
+    }
+    
+    .btn-whatsapp:hover {
+        transform: scale(1.02);
+        background: #128C7E;
+    }
+    
+    .btn-secondary {
+        background: rgba(255,255,255,0.15);
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background: rgba(255,255,255,0.25);
+    }
+    
+    @media (max-width: 500px) {
+        .container { padding: 15px; }
+        .options-grid { gap: 12px; }
+        .option-card { padding: 14px 8px; }
+        .price { font-size: 1.5rem; }
+        .option-icon { width: 28px; height: 28px; }
+        .hero-title { font-size: 2rem; }
+        button { padding: 14px; font-size: 0.9rem; }
+    }
+</style>
+</head>
+<body>
+
+<div class="bg-stadium" id="bg"></div>
+
+<div class="container">
+    <!-- PASO 0: HERO - ENTRADA AL ESTADIO -->
+    <div id="step-0" class="step active">
+        <div class="hero-card">
+            <div class="live-badge">🔴 EN VIVO</div>
+            <h1 class="hero-title">FLAMENGO<br>vs PALMEIRAS</h1>
+            <p style="margin-bottom: 30px; color: #ccc;">¿Quién marcará +1.5 goles?</p>
+            <button class="btn-main" id="enterBtn">🔥 ENTRAR AL ESTADIO 🔥</button>
+        </div>
+    </div>
+
+    <!-- PASO 1: JUEGO - MERCADO DINÁMICO -->
+    <div id="step-1" class="step">
+        <div class="game-card">
+            <div class="section-title">🎯 MERCADO DINÁMICO</div>
+            <div class="section-subtitle">Flamengo 🆚 Palmeiras | +1.5 goles</div>
+            
+            <div class="options-grid" id="optionsGrid"></div>
+            
+            <div class="dynamic-note">
+                📊 Precio sube +$3 a la elegida | Baja -$1 a las demás
+            </div>
+            
+            <button class="btn-main" id="confirmBtn">✅ CONFIRMAR JUGADA</button>
+        </div>
+    </div>
+
+    <!-- PASO 2: RESULTADO - TICKET -->
+    <div id="step-2" class="step">
+        <div class="result-card">
+            <div class="result-title">🎟️ TICKET REGISTRADO</div>
+            <div class="summary" id="summary"></div>
+            <button class="btn-whatsapp" id="whatsappBtn">📤 ENVIAR A WHATSAPP</button>
+            <button class="btn-secondary" id="newBetBtn">🔄 NUEVA APUESTA</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// OPCIONES CON SVG (ACTUALIZADO)
+const OPTIONS = [
+    { 
+        id: "flamengo", 
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 12L7.5 7.5"></path><path d="M12 12L16.5 7.5"></path><path d="M12 12V22"></path><path d="M12 12L2 12"></path></svg>`, 
+        name: "SOLO FLAMENGO", 
+        basePrice: 12 
+    },
+    { 
+        id: "ninguno", 
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`, 
+        name: "NINGUNO", 
+        basePrice: 12 
+    },
+    { 
+        id: "palmeiras", 
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>`, 
+        name: "SOLO PALMEIRAS", 
+        basePrice: 6 
+    },
+    { 
+        id: "ambos", 
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 8 4 4-4 4"></path><path d="M2 12h20"></path><path d="m6 8-4 4 4 4"></path></svg>`, 
+        name: "AMBOS", 
+        basePrice: 6 
+    }
+];
+
+const PREMIO_BASE = 30;
+const WHATSAPP_NUMBER = "5593874016258";
+
+let currentPrices = {
+    flamengo: 12,
+    ninguno: 12,
+    palmeiras: 6,
+    ambos: 6
+};
+
+let selectedOption = null;
+let selectedPrice = null;
+
+function showStep(stepNumber) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById(`step-${stepNumber}`).classList.add('active');
+}
+
+// EFECTO DE INMERSIÓN
+function enterStadium() {
+    document.body.classList.add('entering');
+    setTimeout(() => {
+        showStep(1);
+        document.body.classList.remove('entering');
+    }, 700);
+}
+
+function updatePricesAfterBet(optionId) {
+    let newPrices = { ...currentPrices };
+    newPrices[optionId] += 3;
+    for (let opt of OPTIONS) {
+        if (opt.id !== optionId) {
+            newPrices[opt.id] -= 1;
+        }
+    }
+    for (let key in newPrices) {
+        if (newPrices[key] < 3) newPrices[key] = 3;
+        if (newPrices[key] > 28) newPrices[key] = 28;
+    }
+    currentPrices = newPrices;
+}
+
+function renderOptions() {
+    const grid = document.getElementById('optionsGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    
+    for (let opt of OPTIONS) {
+        const price = currentPrices[opt.id];
+        const isSelected = selectedOption && selectedOption.id === opt.id;
+        const card = document.createElement('div');
+        card.className = `option-card ${isSelected ? 'selected' : ''}`;
+        card.innerHTML = `
+            <div class="option-icon">${opt.icon}</div>
+            <div class="option-name">${opt.name}</div>
+            <span class="price">$${price}</span>
+            <div class="odds-info">🏆 Gana $${PREMIO_BASE}</div>
+        `;
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedOption = opt;
+            selectedPrice = price;
+        });
+        grid.appendChild(card);
+    }
+}
+
+function confirmBet() {
+    if (!selectedOption) {
+        alert("⚠️ Elige una jugada antes de confirmar");
+        return;
+    }
+    
+    updatePricesAfterBet(selectedOption.id);
+    
+    const summaryDiv = document.getElementById('summary');
+    summaryDiv.innerHTML = `
+        <p><strong>⚽ Evento:</strong> Flamengo vs Palmeiras</p>
+        <p><strong>🎯 Tu elección:</strong> ${selectedOption.name}</p>
+        <p><strong>💰 Inversión:</strong> $${selectedPrice}</p>
+        <p><strong>🏆 Retorno potencial:</strong> $${PREMIO_BASE}</p>
+        <p style="margin-top:12px; font-size:0.75rem; color: #FFD700;">
+            📊 El mercado se ajustó: tu opción subió a $${currentPrices[selectedOption.id]} (las otras bajaron -$1)
+        </p>
+    `;
+    
+    window.betData = {
+        name: selectedOption.name,
+        price: selectedPrice,
+        prize: PREMIO_BASE,
+        newPrice: currentPrices[selectedOption.id]
+    };
+    
+    showStep(2);
+}
+
+function sendWhatsApp() {
+    const data = window.betData;
+    if (!data) return;
+    
+    const msg = `🎟️ *ESTADIO APUESTA* 🎟️%0A%0A` +
+                `⚽ *Evento:* Flamengo vs Palmeiras%0A` +
+                `🎯 *Mi jugada:* ${data.name}%0A` +
+                `💰 *Inversión:* $${data.price}%0A` +
+                `🏆 *Premio potencial:* $${data.prize}%0A` +
+                `📊 *Mercado:* Subió a $${data.newPrice}%0A%0A` +
+                `🔥 Coach, quiero aprender a leer el valor y mejorar mi estrategia.`;
+    
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+    window.open(url, '_blank');
+}
+
+function resetGame() {
+    currentPrices = {
+        flamengo: 12,
+        ninguno: 12,
+        palmeiras: 6,
+        ambos: 6
+    };
+    selectedOption = null;
+    selectedPrice = null;
+    window.betData = null;
+    renderOptions();
+    showStep(1);
+}
+
+// Eventos
+document.getElementById('enterBtn').addEventListener('click', enterStadium);
+document.getElementById('confirmBtn').addEventListener('click', confirmBet);
+document.getElementById('whatsappBtn').addEventListener('click', sendWhatsApp);
+document.getElementById('newBetBtn').addEventListener('click', resetGame);
+
+// Inicializar
+renderOptions();
+</script>
+</body>
+</html>
