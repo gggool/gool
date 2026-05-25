@@ -1,0 +1,564 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ESTÁDIO APOSTA</title>
+
+<style>
+    :root {
+        --gold: #FFD700;
+        --green: #4ade80;
+    }
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+
+    body{
+        font-family:'Segoe UI', Arial, sans-serif;
+        min-height:100vh;
+        background:#000;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        color:white;
+        overflow:hidden;
+    }
+
+    /* FUNDO */
+    .bg-stadium{
+        position:fixed;
+        inset:0;
+        background:
+            linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.82)),
+            url('https://i.ibb.co/Cty52yx/Whats-App-Image-2024-12-11-at-9-33-34-PM.jpg');
+        background-size:cover;
+        background-position:center;
+        transition:transform 1.2s ease, filter 1.2s ease;
+        z-index:-1;
+    }
+
+    .entering .bg-stadium{
+        transform:scale(1.15);
+        filter:blur(3px);
+    }
+
+    .container{
+        width:100%;
+        max-width:500px;
+        padding:20px;
+    }
+
+    .step{
+        display:none;
+        opacity:0;
+        transform:translateY(20px);
+        transition:.45s ease;
+    }
+
+    .step.active{
+        display:block;
+        opacity:1;
+        transform:translateY(0);
+    }
+
+    /* HERO */
+    .hero-card{
+        text-align:center;
+    }
+
+    .live-badge{
+        display:inline-block;
+        background:#ff2d2d;
+        padding:6px 14px;
+        border-radius:999px;
+        font-size:.8rem;
+        font-weight:700;
+        animation:pulse 1.5s infinite;
+    }
+
+    .hero-overlay{
+        background: rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 30px;
+        padding: 40px 25px;
+        text-align: center;
+        box-shadow: 0 0 40px rgba(0,0,0,0.45);
+    }
+
+    .match-box{
+        margin: 25px 0;
+    }
+
+    .team{
+        font-size: 2.3rem;
+        font-weight: 900;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-shadow: 0 0 18px rgba(255,255,255,0.15);
+    }
+
+    .vs-divider{
+        color: var(--gold);
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 10px 0;
+        opacity: .9;
+        letter-spacing: 4px;
+    }
+
+    .hero-question{
+        margin-top: 20px;
+        margin-bottom: 28px;
+        font-size: 1rem;
+        color: #ddd;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    @keyframes pulse{
+        0%{transform:scale(1);}
+        50%{transform:scale(1.05);}
+        100%{transform:scale(1);}
+    }
+
+    /* CARD */
+    .game-card,
+    .result-card{
+        background:rgba(0,0,0,.84);
+        backdrop-filter:blur(10px);
+        border-radius:30px;
+        padding:25px;
+        border:1px solid rgba(255,215,0,.15);
+    }
+
+    .section-title{
+        text-align:center;
+        font-size:1.35rem;
+        font-weight:800;
+        color:var(--gold);
+        margin-bottom:6px;
+    }
+
+    .section-subtitle{
+        text-align:center;
+        color:#999;
+        font-size:.82rem;
+        margin-bottom:22px;
+    }
+
+    /* OPÇÕES */
+    .options-grid{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:14px;
+    }
+
+    .option-card{
+        background:rgba(255,255,255,.05);
+        border:2px solid rgba(255,215,0,.15);
+        border-radius:22px;
+        padding:16px 10px;
+        text-align:center;
+        cursor:pointer;
+        transition:.25s ease;
+    }
+
+    .option-card:hover{
+        transform:translateY(-2px);
+        border-color:var(--gold);
+    }
+
+    .option-card.selected{
+        border-color:var(--gold);
+        background:rgba(255,215,0,.12);
+        box-shadow:0 0 15px rgba(255,215,0,.18);
+    }
+
+    .option-icon{
+        font-size:2rem;
+        margin-bottom:10px;
+        color:white;
+    }
+
+    .option-card.selected .option-icon{
+        color:var(--gold);
+    }
+
+    .option-name{
+        font-size:.82rem;
+        font-weight:700;
+        margin-bottom:8px;
+    }
+
+    .price{
+        display:block;
+        font-size:1.8rem;
+        font-weight:900;
+        color:var(--gold);
+    }
+
+    .odds-info{
+        margin-top:5px;
+        font-size:.72rem;
+        color:var(--green);
+    }
+
+    .dynamic-note{
+        text-align:center;
+        font-size:.7rem;
+        color:#8f8f8f;
+        margin:18px 0 8px;
+    }
+
+    /* BOTÕES */
+    button{
+        width:100%;
+        border:none;
+        border-radius:999px;
+        padding:16px;
+        font-weight:800;
+        cursor:pointer;
+        transition:.25s ease;
+    }
+
+    button:active{
+        transform:scale(.98);
+    }
+
+    .btn-main{
+        background:linear-gradient(95deg, var(--gold), #FFA500);
+        color:black;
+        margin-top:14px;
+        box-shadow:0 5px 20px rgba(255,215,0,.25);
+    }
+
+    .btn-main:hover{
+        transform:scale(1.02);
+    }
+
+    .btn-whatsapp{
+        background:#25D366;
+        color:white;
+        margin-bottom:12px;
+    }
+
+    .btn-secondary{
+        background:rgba(255,255,255,.12);
+        color:white;
+    }
+
+    /* RESULTADO */
+    .result-title{
+        text-align:center;
+        color:var(--gold);
+        font-size:1.5rem;
+        margin-bottom:18px;
+    }
+
+    .summary{
+        background:rgba(255,255,255,.06);
+        border-radius:20px;
+        padding:18px;
+        line-height:1.6;
+        margin-bottom:20px;
+    }
+
+    .summary p{
+        margin:8px 0;
+    }
+
+    /* MOBILE */
+    @media(max-width:500px){
+        .container{
+            padding:14px;
+        }
+        .option-card{
+            padding:14px 8px;
+        }
+        .option-icon{
+            font-size:1.7rem;
+        }
+        .price{
+            font-size:1.5rem;
+        }
+        button{
+            padding:14px;
+        }
+        .hero-overlay{
+            padding: 35px 20px;
+        }
+        .team{
+            font-size: 1.8rem;
+        }
+        .hero-question{
+            font-size: 0.9rem;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="bg-stadium"></div>
+
+<div class="container">
+
+    <!-- PASSO 0: HERO (com o badge DENTRO) -->
+    <div id="step-0" class="step active">
+        <div class="hero-overlay">
+            <div style="display:flex; justify-content:flex-end; margin-bottom:15px;">
+                <div class="live-badge">
+                    🔴 AO VIVO
+                </div>
+            </div>
+            <div class="match-box">
+                <div class="team">LANUS</div>
+                <div class="vs-divider">VS</div>
+                <div class="team">MIRASOL</div>
+            </div>
+            <div class="hero-question">
+                QUEM MARCA +1.5 GOLS?
+            </div>
+            <button class="btn-main hero-btn" id="enterBtn">
+                ENTRAR NO ESTÁDIO
+            </button>
+        </div>
+    </div>
+
+    <!-- PASSO 1: JOGO -->
+    <div id="step-1" class="step">
+        <div class="game-card">
+            <div class="section-title">
+                ⚽ Quem marca +1.5 gols?
+            </div>
+            <div class="section-subtitle">
+                Leia o jogo 🧠
+            </div>
+            <div class="options-grid" id="optionsGrid"></div>
+            <div class="dynamic-note">
+                🔥 Preços dinâmicos +3 / -1
+            </div>
+            <button class="btn-main" id="confirmBtn">
+                CONFIRMAR
+            </button>
+        </div>
+    </div>
+
+    <!-- PASSO 2: RESULTADO -->
+    <div id="step-2" class="step">
+        <div class="result-card">
+            <div class="result-title">
+                🎟️ APOSTA REGISTRADA
+            </div>
+            <div class="summary" id="summary"></div>
+            <button class="btn-whatsapp" id="whatsappBtn">
+                COMPRAR INGRESSO via WhatsApp
+            </button>
+            <button class="btn-secondary" id="newBetBtn">
+                NOVA APOSTA
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+/* =========================
+   CONFIGURAÇÃO DA PARTIDA
+========================= */
+
+const MATCH = {
+    homeTeam: "LANUS",
+    awayTeam: "MIRASOL",
+    question: "Quem marca +1.5 gols?",
+    prize: 30,
+    whatsapp: "573016031886",
+    prices: {
+        home: 15,
+        none: 15,
+        away: 3,
+        both: 3
+    }
+};
+
+/* =========================
+   OPÇÕES
+========================= */
+
+const OPTIONS = [
+    { id:"home", icon:"⬅", name:`SÓ ${MATCH.homeTeam}` },
+    { id:"none", icon:"🔒", name:"NINGUÉM" },
+    { id:"away", icon:"➡", name:`SÓ ${MATCH.awayTeam}` },
+    { id:"both", icon:"↔", name:"AMBOS" }
+];
+
+/* =========================
+   PREÇOS DINÂMICOS
+========================= */
+
+let currentPrices = {
+    home: MATCH.prices.home,
+    none: MATCH.prices.none,
+    away: MATCH.prices.away,
+    both: MATCH.prices.both
+};
+
+let selectedOption = null;
+let selectedPrice = null;
+
+/* =========================
+   STEPS
+========================= */
+
+function showStep(step){
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById(`step-${step}`).classList.add('active');
+}
+
+/* =========================
+   ENTRAR NO ESTÁDIO (EFEITO IMERSÃO)
+========================= */
+
+function enterStadium(){
+    document.body.classList.add('entering');
+    setTimeout(() => {
+        showStep(1);
+        document.body.classList.remove('entering');
+    }, 700);
+}
+
+/* =========================
+   MERCADO DINÂMICO
+========================= */
+
+function updatePricesAfterBet(optionId){
+    let newPrices = {...currentPrices};
+    newPrices[optionId] += 3;
+    for(let opt of OPTIONS){
+        if(opt.id !== optionId){
+            newPrices[opt.id] -= 1;
+        }
+    }
+    for(let key in newPrices){
+        if(newPrices[key] < 3) newPrices[key] = 3;
+        if(newPrices[key] > 28) newPrices[key] = 28;
+    }
+    currentPrices = newPrices;
+}
+
+/* =========================
+   RENDERIZAR OPÇÕES
+========================= */
+
+function renderOptions(){
+    const grid = document.getElementById('optionsGrid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    
+    for(let opt of OPTIONS){
+        const price = currentPrices[opt.id];
+        const isSelected = selectedOption && selectedOption.id === opt.id;
+        const card = document.createElement('div');
+        card.className = `option-card ${isSelected ? 'selected' : ''}`;
+        card.innerHTML = `
+            <div class="option-icon">${opt.icon}</div>
+            <div class="option-name">${opt.name}</div>
+            <span class="price">$${price}</span>
+            <div class="odds-info">🏆 Ganha $${MATCH.prize}</div>
+        `;
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedOption = opt;
+            selectedPrice = price;
+        });
+        grid.appendChild(card);
+    }
+}
+
+/* =========================
+   CONFIRMAR
+========================= */
+
+function confirmBet(){
+    if(!selectedOption){
+        alert("Selecione uma jogada");
+        return;
+    }
+    
+    updatePricesAfterBet(selectedOption.id);
+    
+    const summary = document.getElementById('summary');
+    summary.innerHTML = `
+        <p><strong>⚽ Evento:</strong> ${MATCH.homeTeam} vs ${MATCH.awayTeam}</p>
+        <p><strong>🎯 Jogada:</strong> ${selectedOption.name}</p>
+        <p><strong>💰 Entrada:</strong> $${selectedPrice}</p>
+        <p><strong>🏆 Prêmio:</strong> $${MATCH.prize}</p>
+        <p style="margin-top:12px; font-size:0.75rem; color:#FFD700;">
+            📊 A opção subiu para $${currentPrices[selectedOption.id]}
+        </p>
+    `;
+    
+    window.betData = {
+        name: selectedOption.name,
+        price: selectedPrice,
+        prize: MATCH.prize
+    };
+    
+    showStep(2);
+}
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function sendWhatsApp(){
+    const data = window.betData;
+    if(!data) return;
+    const msg = `🎟️ *ESTÁDIO APOSTA* 🎟️%0A%0A` +
+                `⚽ ${MATCH.homeTeam} vs ${MATCH.awayTeam}%0A` +
+                `🎯 ${data.name}%0A` +
+                `💰 Entrada: $${data.price}%0A` +
+                `🏆 Prêmio: $${data.prize}`;
+    window.open(`https://wa.me/${MATCH.whatsapp}?text=${msg}`, '_blank');
+}
+
+/* =========================
+   RESET
+========================= */
+
+function resetGame(){
+    currentPrices = {
+        home: MATCH.prices.home,
+        none: MATCH.prices.none,
+        away: MATCH.prices.away,
+        both: MATCH.prices.both
+    };
+    selectedOption = null;
+    selectedPrice = null;
+    renderOptions();
+    showStep(1);
+}
+
+/* =========================
+   EVENTOS
+========================= */
+
+document.getElementById('enterBtn').addEventListener('click', enterStadium);
+document.getElementById('confirmBtn').addEventListener('click', confirmBet);
+document.getElementById('whatsappBtn').addEventListener('click', sendWhatsApp);
+document.getElementById('newBetBtn').addEventListener('click', resetGame);
+
+/* =========================
+   INICIALIZAR
+========================= */
+
+renderOptions();
+
+</script>
+</body>
+</html>
