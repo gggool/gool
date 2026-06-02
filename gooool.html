@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ESTÁDIO APOSTA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<title>ESTADIO APUESTA - AMISTOSO</title>
 
 <style>
     :root {
@@ -15,25 +15,35 @@
         margin:0;
         padding:0;
         box-sizing:border-box;
+        /* Evita selección de texto en toda la app */
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
     body{
         font-family:'Segoe UI', Arial, sans-serif;
-        min-height:100vh;
+        height:100vh;
         background:#000;
         display:flex;
         justify-content:center;
         align-items:center;
         color:white;
-        overflow:hidden;
+        overflow:hidden; /* Elimina el scroll */
+        position:fixed;
+        width:100%;
     }
 
-    /* FUNDO */
+    /* FONDO ESTADIO */
     .bg-stadium{
         position:fixed;
         inset:0;
         background:
-            linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.82)),
+            linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.85)),
             url('https://i.ibb.co/Cty52yx/Whats-App-Image-2024-12-11-at-9-33-34-PM.jpg');
         background-size:cover;
         background-position:center;
@@ -49,7 +59,11 @@
     .container{
         width:100%;
         max-width:500px;
-        padding:20px;
+        padding:16px;
+        height:100vh;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
     }
 
     .step{
@@ -66,8 +80,13 @@
     }
 
     /* HERO */
-    .hero-card{
-        text-align:center;
+    .hero-overlay{
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(8px);
+        border-radius: 30px;
+        padding: 30px 20px;
+        text-align: center;
+        border: 1px solid rgba(255,215,0,0.15);
     }
 
     .live-badge{
@@ -75,30 +94,22 @@
         background:#ff2d2d;
         padding:6px 14px;
         border-radius:999px;
-        font-size:.8rem;
+        font-size:.75rem;
         font-weight:700;
-        animation:pulse 1.5s infinite;
-    }
-
-    .hero-overlay{
-        background: rgba(0,0,0,0.5);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 30px;
-        padding: 40px 25px;
-        text-align: center;
-        box-shadow: 0 0 40px rgba(0,0,0,0.45);
+        margin-bottom:15px;
     }
 
     .match-box{
-        margin: 25px 0;
+        margin: 15px 0;
     }
 
     .team{
-        font-size: 2.3rem;
+        font-size: 1.8rem;
         font-weight: 900;
         letter-spacing: 2px;
         text-transform: uppercase;
-        text-shadow: 0 0 18px rgba(255,255,255,0.15);
+        color: white;
+        text-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
 
     .vs-divider{
@@ -106,38 +117,86 @@
         font-size: 1rem;
         font-weight: bold;
         margin: 10px 0;
-        opacity: .9;
         letter-spacing: 4px;
     }
 
     .hero-question{
-        margin-top: 20px;
-        margin-bottom: 28px;
-        font-size: 1rem;
+        margin: 15px 0 20px;
+        font-size: 0.9rem;
         color: #ddd;
-        font-weight: 700;
-        letter-spacing: 1px;
+        font-weight: 600;
+        background: rgba(0,0,0,0.4);
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 50px;
     }
 
-    @keyframes pulse{
-        0%{transform:scale(1);}
-        50%{transform:scale(1.05);}
-        100%{transform:scale(1);}
+    /* PRUEBA SOCIAL - CONTADOR */
+    .social-proof{
+        background: rgba(255,215,0,0.12);
+        border: 1px solid rgba(255,215,0,0.25);
+        border-radius: 50px;
+        padding: 6px 14px;
+        margin: 15px 0 12px;
+        font-size: 0.75rem;
+        color: var(--gold);
+        display: inline-block;
     }
 
-    /* CARD */
+    /* BOTONES */
+    button{
+        width:100%;
+        border:none;
+        border-radius:999px;
+        padding:14px;
+        font-weight:800;
+        cursor:pointer;
+        transition:.2s ease;
+        font-size: 0.95rem;
+    }
+
+    button:active{
+        transform:scale(.97);
+    }
+
+    .btn-main{
+        background:linear-gradient(95deg, var(--gold), #FFA500);
+        color:black;
+        margin-top:10px;
+    }
+
+    .btn-main:hover{
+        opacity: 0.9;
+    }
+
+    .btn-whatsapp{
+        background:#25D366;
+        color:white;
+        margin-bottom:10px;
+    }
+
+    .btn-secondary{
+        background:rgba(255,255,255,.12);
+        color:white;
+    }
+
+    .btn-secondary:hover{
+        background:rgba(255,255,255,.2);
+    }
+
+    /* CARD DEL JUEGO */
     .game-card,
     .result-card{
-        background:rgba(0,0,0,.84);
+        background:rgba(0,0,0,.85);
         backdrop-filter:blur(10px);
         border-radius:30px;
-        padding:25px;
+        padding:20px;
         border:1px solid rgba(255,215,0,.15);
     }
 
     .section-title{
         text-align:center;
-        font-size:1.35rem;
+        font-size:1.2rem;
         font-weight:800;
         color:var(--gold);
         margin-bottom:6px;
@@ -146,25 +205,25 @@
     .section-subtitle{
         text-align:center;
         color:#999;
-        font-size:.82rem;
-        margin-bottom:22px;
+        font-size:.75rem;
+        margin-bottom:18px;
     }
 
-    /* OPÇÕES */
+    /* OPCIONES */
     .options-grid{
         display:grid;
         grid-template-columns:1fr 1fr;
-        gap:14px;
+        gap:12px;
     }
 
     .option-card{
         background:rgba(255,255,255,.05);
         border:2px solid rgba(255,215,0,.15);
-        border-radius:22px;
-        padding:16px 10px;
+        border-radius:20px;
+        padding:12px 8px;
         text-align:center;
         cursor:pointer;
-        transition:.25s ease;
+        transition:.2s ease;
     }
 
     .option-card:hover{
@@ -175,12 +234,11 @@
     .option-card.selected{
         border-color:var(--gold);
         background:rgba(255,215,0,.12);
-        box-shadow:0 0 15px rgba(255,215,0,.18);
     }
 
     .option-icon{
-        font-size:2rem;
-        margin-bottom:10px;
+        font-size:1.5rem;
+        margin-bottom:6px;
         color:white;
     }
 
@@ -189,113 +247,78 @@
     }
 
     .option-name{
-        font-size:.82rem;
+        font-size:.75rem;
         font-weight:700;
-        margin-bottom:8px;
+        margin-bottom:5px;
     }
 
     .price{
         display:block;
-        font-size:1.8rem;
+        font-size:1.4rem;
         font-weight:900;
         color:var(--gold);
     }
 
     .odds-info{
-        margin-top:5px;
-        font-size:.72rem;
+        margin-top:4px;
+        font-size:.65rem;
         color:var(--green);
     }
 
     .dynamic-note{
         text-align:center;
-        font-size:.7rem;
+        font-size:.6rem;
         color:#8f8f8f;
-        margin:18px 0 8px;
-    }
-
-    /* BOTÕES */
-    button{
-        width:100%;
-        border:none;
-        border-radius:999px;
-        padding:16px;
-        font-weight:800;
-        cursor:pointer;
-        transition:.25s ease;
-    }
-
-    button:active{
-        transform:scale(.98);
-    }
-
-    .btn-main{
-        background:linear-gradient(95deg, var(--gold), #FFA500);
-        color:black;
-        margin-top:14px;
-        box-shadow:0 5px 20px rgba(255,215,0,.25);
-    }
-
-    .btn-main:hover{
-        transform:scale(1.02);
-    }
-
-    .btn-whatsapp{
-        background:#25D366;
-        color:white;
-        margin-bottom:12px;
-    }
-
-    .btn-secondary{
-        background:rgba(255,255,255,.12);
-        color:white;
+        margin:14px 0 6px;
     }
 
     /* RESULTADO */
     .result-title{
         text-align:center;
         color:var(--gold);
-        font-size:1.5rem;
-        margin-bottom:18px;
+        font-size:1.3rem;
+        margin-bottom:14px;
     }
 
     .summary{
         background:rgba(255,255,255,.06);
         border-radius:20px;
-        padding:18px;
-        line-height:1.6;
-        margin-bottom:20px;
+        padding:14px;
+        line-height:1.5;
+        margin-bottom:16px;
+        font-size:0.85rem;
     }
 
     .summary p{
-        margin:8px 0;
+        margin:6px 0;
     }
 
     /* MOBILE */
     @media(max-width:500px){
         .container{
-            padding:14px;
+            padding:12px;
         }
         .option-card{
-            padding:14px 8px;
+            padding:10px 5px;
         }
         .option-icon{
-            font-size:1.7rem;
+            font-size:1.3rem;
         }
         .price{
-            font-size:1.5rem;
+            font-size:1.2rem;
         }
         button{
-            padding:14px;
+            padding:12px;
+            font-size:0.85rem;
         }
         .hero-overlay{
-            padding: 35px 20px;
+            padding: 25px 15px;
         }
         .team{
-            font-size: 1.8rem;
+            font-size: 1.4rem;
         }
         .hero-question{
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
     }
 </style>
@@ -306,40 +329,46 @@
 
 <div class="container">
 
-    <!-- PASSO 0: HERO (com o badge DENTRO) -->
+    <!-- PASO 0: HERO -->
     <div id="step-0" class="step active">
         <div class="hero-overlay">
-            <div style="display:flex; justify-content:flex-end; margin-bottom:15px;">
-                <div class="live-badge">
-                    🔴 AO VIVO
-                </div>
+            <div class="live-badge">
+                🔴 EN VIVO
             </div>
+            
             <div class="match-box">
                 <div class="team">R. D. CONGO</div>
                 <div class="vs-divider">VS</div>
                 <div class="team">DINAMARCA</div>
             </div>
+            
             <div class="hero-question">
-                QUEM MARCA +1.5 GOLS?
+                🤔 ¿QUIÉN MARCA +1.5 GOLES?
             </div>
-            <button class="btn-main hero-btn" id="enterBtn">
-                ENTRAR NO ESTÁDIO
+            
+            <!-- CONTADOR SOCIAL -->
+            <div class="social-proof" id="socialCounter">
+                🔥 7 personas ya eligieron una jugada
+            </div>
+            
+            <button class="btn-main" id="enterBtn">
+                ENTRAR AL ESTADIO
             </button>
         </div>
     </div>
 
-    <!-- PASSO 1: JOGO -->
+    <!-- PASO 1: JUEGO -->
     <div id="step-1" class="step">
         <div class="game-card">
             <div class="section-title">
-                ⚽ Quem marca +1.5 gols?
+                ⚽ ¿Quién marca +1.5 goles?
             </div>
             <div class="section-subtitle">
-                Leia o jogo 🧠
+                Lee el partido 🧠
             </div>
             <div class="options-grid" id="optionsGrid"></div>
             <div class="dynamic-note">
-                🔥 Preços dinâmicos +3 / -1
+                🔥 Precios dinámicos +3 / -1
             </div>
             <button class="btn-main" id="confirmBtn">
                 CONFIRMAR
@@ -347,18 +376,18 @@
         </div>
     </div>
 
-    <!-- PASSO 2: RESULTADO -->
+    <!-- PASO 2: RESULTADO -->
     <div id="step-2" class="step">
         <div class="result-card">
             <div class="result-title">
-                🎟️ APOSTA REGISTRADA
+                🎟️ APUESTA REGISTRADA
             </div>
             <div class="summary" id="summary"></div>
             <button class="btn-whatsapp" id="whatsappBtn">
-                COMPRAR INGRESSO via WhatsApp
+                COMPRAR ENTRADA vía WhatsApp
             </button>
             <button class="btn-secondary" id="newBetBtn">
-                NOVA APOSTA
+                NUEVA APUESTA
             </button>
         </div>
     </div>
@@ -368,13 +397,12 @@
 <script>
 
 /* =========================
-   CONFIGURAÇÃO DA PARTIDA
+   CONFIGURACIÓN DEL PARTIDO
 ========================= */
 
 const MATCH = {
-    homeTeam: "R. D CONGO",
+    homeTeam: "R. D. CONGO",
     awayTeam: "DINAMARCA",
-    question: "Quem marca +1.5 gols?",
     prize: 30,
     whatsapp: "573016031886",
     prices: {
@@ -386,18 +414,36 @@ const MATCH = {
 };
 
 /* =========================
-   OPÇÕES
+   CONTADOR SOCIAL
+========================= */
+
+let betCounter = 7;
+
+function updateSocialCounter() {
+    const counterEl = document.getElementById('socialCounter');
+    if (counterEl) {
+        counterEl.innerHTML = `🔥 ${betCounter} personas ya eligieron una jugada`;
+    }
+}
+
+function incrementCounter() {
+    betCounter++;
+    updateSocialCounter();
+}
+
+/* =========================
+   OPCIONES
 ========================= */
 
 const OPTIONS = [
-    { id:"home", icon:"⬅", name:`SÓ ${MATCH.homeTeam}` },
-    { id:"none", icon:"🔒", name:"NINGUÉM" },
-    { id:"away", icon:"➡", name:`SÓ ${MATCH.awayTeam}` },
-    { id:"both", icon:"↔", name:"AMBOS" }
+    { id:"home", icon:"🇨🇩", name:`SOLO ${MATCH.homeTeam}` },
+    { id:"none", icon:"🔒", name:"NINGUNO" },
+    { id:"away", icon:"🇩🇰", name:`SOLO ${MATCH.awayTeam}` },
+    { id:"both", icon:"⚽⚽", name:"AMBOS" }
 ];
 
 /* =========================
-   PREÇOS DINÂMICOS
+   PRECIOS DINÁMICOS
 ========================= */
 
 let currentPrices = {
@@ -411,7 +457,7 @@ let selectedOption = null;
 let selectedPrice = null;
 
 /* =========================
-   STEPS
+   PASOS
 ========================= */
 
 function showStep(step){
@@ -420,7 +466,7 @@ function showStep(step){
 }
 
 /* =========================
-   ENTRAR NO ESTÁDIO (EFEITO IMERSÃO)
+   ENTRAR AL ESTADIO
 ========================= */
 
 function enterStadium(){
@@ -428,11 +474,11 @@ function enterStadium(){
     setTimeout(() => {
         showStep(1);
         document.body.classList.remove('entering');
-    }, 700);
+    }, 600);
 }
 
 /* =========================
-   MERCADO DINÂMICO
+   MERCADO DINÁMICO
 ========================= */
 
 function updatePricesAfterBet(optionId){
@@ -451,7 +497,7 @@ function updatePricesAfterBet(optionId){
 }
 
 /* =========================
-   RENDERIZAR OPÇÕES
+   RENDERIZAR OPCIONES
 ========================= */
 
 function renderOptions(){
@@ -468,7 +514,7 @@ function renderOptions(){
             <div class="option-icon">${opt.icon}</div>
             <div class="option-name">${opt.name}</div>
             <span class="price">$${price}</span>
-            <div class="odds-info">🏆 Ganha $${MATCH.prize}</div>
+            <div class="odds-info">🏆 Gana $${MATCH.prize}</div>
         `;
         card.addEventListener('click', () => {
             document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
@@ -486,24 +532,26 @@ function renderOptions(){
 
 function confirmBet(){
     if(!selectedOption){
-        alert("Selecione uma jogada");
+        alert("Selecciona una jugada");
         return;
     }
     
     updatePricesAfterBet(selectedOption.id);
+    incrementCounter();
     
     const summary = document.getElementById('summary');
     summary.innerHTML = `
         <p><strong>⚽ Evento:</strong> ${MATCH.homeTeam} vs ${MATCH.awayTeam}</p>
-        <p><strong>🎯 Jogada:</strong> ${selectedOption.name}</p>
+        <p><strong>🎯 Jugada:</strong> ${selectedOption.icon} ${selectedOption.name}</p>
         <p><strong>💰 Entrada:</strong> $${selectedPrice}</p>
-        <p><strong>🏆 Prêmio:</strong> $${MATCH.prize}</p>
+        <p><strong>🏆 Premio:</strong> $${MATCH.prize}</p>
         <p style="margin-top:12px; font-size:0.75rem; color:#FFD700;">
-            📊 A opção subiu para $${currentPrices[selectedOption.id]}
+            📊 La opción subió a $${currentPrices[selectedOption.id]}
         </p>
     `;
     
     window.betData = {
+        icon: selectedOption.icon,
         name: selectedOption.name,
         price: selectedPrice,
         prize: MATCH.prize
@@ -519,16 +567,16 @@ function confirmBet(){
 function sendWhatsApp(){
     const data = window.betData;
     if(!data) return;
-    const msg = `🎟️ *ESTÁDIO APOSTA* 🎟️%0A%0A` +
+    const msg = `🎟️ *ESTADIO APUESTA* 🎟️%0A%0A` +
                 `⚽ ${MATCH.homeTeam} vs ${MATCH.awayTeam}%0A` +
-                `🎯 ${data.name}%0A` +
+                `🎯 ${data.icon} ${data.name}%0A` +
                 `💰 Entrada: $${data.price}%0A` +
-                `🏆 Prêmio: $${data.prize}`;
+                `🏆 Premio: $${data.prize}`;
     window.open(`https://wa.me/${MATCH.whatsapp}?text=${msg}`, '_blank');
 }
 
 /* =========================
-   RESET
+   REINICIAR
 ========================= */
 
 function resetGame(){
@@ -558,6 +606,7 @@ document.getElementById('newBetBtn').addEventListener('click', resetGame);
 ========================= */
 
 renderOptions();
+updateSocialCounter();
 
 </script>
 </body>
