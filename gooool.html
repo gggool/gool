@@ -76,13 +76,6 @@
         transform:translateY(0);
     }
 
-    .step.fade-out {
-        opacity: 0;
-        transform: scale(0.97);
-        pointer-events: none;
-        transition: opacity 0.45s ease, transform 0.45s ease;
-    }
-
     /* SPLASH SCREEN */
     .splash-content {
         text-align: center;
@@ -152,7 +145,6 @@
         position: relative;
     }
 
-    /* Esquina superior izquierda - EN VIVO */
     .live-badge-corner {
         position: absolute;
         top: 15px;
@@ -172,30 +164,72 @@
         100% { opacity: 1; transform: scale(1); }
     }
 
-    /* Selector de idioma - arriba del todo */
-    .lang-selector {
+    /* Selector de idioma - ícono globo terráqueo */
+    .lang-icon {
+        position: absolute;
+        top: 12px;
+        right: 20px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,215,0,0.3);
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
         display: flex;
-        justify-content: flex-end;
-        gap: 8px;
-        margin-bottom: 20px;
-        margin-top: 5px;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        z-index: 2;
     }
     
-    .lang-btn {
-        width: auto;
-        padding: 4px 10px;
-        font-size: 0.65rem;
-        border-radius: 999px;
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.2);
-        color: #aaa;
-        cursor: pointer;
+    .lang-icon:hover {
+        background: rgba(255,215,0,0.2);
+        transform: scale(1.05);
+    }
+    
+    .lang-menu {
+        position: absolute;
+        top: 55px;
+        right: 20px;
+        background: rgba(0,0,0,0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--gold);
+        border-radius: 20px;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        z-index: 10;
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0.9);
         transition: all 0.2s ease;
     }
     
-    .lang-btn.active-lang {
+    .lang-menu.active {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+    
+    .lang-option {
+        padding: 8px 16px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: all 0.2s ease;
+        color: #aaa;
+        text-align: center;
+    }
+    
+    .lang-option:hover {
         background: rgba(255,215,0,0.2);
-        border-color: var(--gold);
+        color: var(--gold);
+    }
+    
+    .lang-option.active {
+        background: rgba(255,215,0,0.3);
         color: var(--gold);
     }
 
@@ -227,7 +261,7 @@
         font-weight: 600;
         background: rgba(0,0,0,0.4);
         display: inline-block;
-        padding: 6px 16px;
+        padding: 8px 18px;
         border-radius: 50px;
     }
 
@@ -291,12 +325,42 @@
         border:1px solid rgba(255,215,0,.15);
     }
 
+    .title-with-help {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 6px;
+    }
+    
     .section-title{
         text-align:center;
         font-size:1.2rem;
         font-weight:800;
         color:var(--gold);
-        margin-bottom:6px;
+        display: inline-block;
+    }
+    
+    .help-icon-game {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        background: rgba(255,215,0,0.15);
+        border: 1px solid var(--gold);
+        border-radius: 50%;
+        color: var(--gold);
+        font-size: 0.8rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .help-icon-game:hover {
+        background: var(--gold);
+        color: black;
+        transform: scale(1.05);
     }
 
     .section-subtitle{
@@ -388,7 +452,6 @@
         margin:6px 0;
     }
 
-    /* CONFETTI */
     .confetti-piece {
         position: fixed;
         width: 8px;
@@ -402,6 +465,84 @@
     @keyframes confettiFall {
         0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
         100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* MODAL DE AYUDA */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.9);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .modal-content {
+        background: rgba(0,0,0,0.95);
+        border: 1px solid var(--gold);
+        border-radius: 30px;
+        padding: 25px;
+        max-width: 320px;
+        width: 85%;
+        text-align: center;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+    
+    .modal-overlay.active .modal-content {
+        transform: scale(1);
+    }
+    
+    .modal-title {
+        color: var(--gold);
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    
+    .modal-body {
+        color: #ddd;
+        font-size: 0.8rem;
+        line-height: 1.5;
+        text-align: left;
+        margin-bottom: 20px;
+    }
+    
+    .modal-body p {
+        margin: 8px 0;
+    }
+    
+    .modal-body ul {
+        margin: 8px 0;
+        padding-left: 20px;
+    }
+    
+    .modal-body li {
+        margin: 4px 0;
+    }
+    
+    .modal-close {
+        background: linear-gradient(95deg, var(--gold), #FFA500);
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        width: auto;
+        margin-top: 5px;
     }
 
     @media(max-width:500px){
@@ -439,12 +580,16 @@
             font-size: 0.65rem;
             padding: 3px 10px;
         }
-        .lang-selector {
-            margin-bottom: 15px;
+        .lang-icon {
+            top: 8px;
+            right: 15px;
+            width: 32px;
+            height: 32px;
+            font-size: 1rem;
         }
-        .lang-btn {
-            padding: 3px 8px;
-            font-size: 0.6rem;
+        .lang-menu {
+            top: 48px;
+            right: 15px;
         }
     }
 </style>
@@ -454,6 +599,15 @@
 <div class="bg-stadium"></div>
 
 <div class="container">
+
+    <!-- MODAL DE AYUDA -->
+    <div id="helpModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title" id="modalTitle">❓ ¿CÓMO FUNCIONA?</div>
+            <div class="modal-body" id="modalBody"></div>
+            <button class="modal-close" onclick="closeHelpModal()" id="modalCloseBtn">¡ENTENDIDO!</button>
+        </div>
+    </div>
 
     <!-- SPLASH SCREEN -->
     <div id="step-splash" class="step active">
@@ -474,19 +628,21 @@
         </div>
     </div>
 
-    <!-- PASO 0: HERO - MÉXICO vs SUDÁFRICA -->
+    <!-- PASO 0: HERO -->
     <div id="step-0" class="step">
         <div class="hero-overlay">
-            <!-- EN VIVO en esquina superior izquierda -->
-            <div class="live-badge-corner">
+            <div class="live-badge-corner" id="liveBadge">
                 🔴 EN VIVO
             </div>
             
-            <!-- Selector de idioma - arriba a la derecha -->
-            <div class="lang-selector">
-                <button class="lang-btn active-lang" data-lang="es">🇪🇸 ES</button>
-                <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
-                <button class="lang-btn" data-lang="pt">🇧🇷 PT</button>
+            <div class="lang-icon" id="langIcon">
+                🌐
+            </div>
+            
+            <div class="lang-menu" id="langMenu">
+                <div class="lang-option" data-lang="es">🇪🇸 ESPAÑOL</div>
+                <div class="lang-option" data-lang="en">🇬🇧 ENGLISH</div>
+                <div class="lang-option" data-lang="pt">🇧🇷 PORTUGUÊS</div>
             </div>
             
             <div class="match-box">
@@ -496,7 +652,7 @@
             </div>
             
             <div class="hero-question" id="heroQuestion">
-                🤔 ¿QUIÉN MARCA +1.5 GOLES?
+                🤔 ¿QUIÉN ANOTA 2 O MÁS GOLES?
             </div>
             
             <div class="social-proof" id="socialCounter">
@@ -512,8 +668,11 @@
     <!-- PASO 1: JUEGO -->
     <div id="step-1" class="step">
         <div class="game-card">
-            <div class="section-title" id="gameTitle">
-                ⚽ ¿Quién marca +1.5 goles?
+            <div class="title-with-help">
+                <div class="section-title" id="gameTitle">
+                    ⚽ ¿Quién anota 2 o más goles?
+                </div>
+                <div class="help-icon-game" id="helpIconGame">❓</div>
             </div>
             <div class="section-subtitle" id="gameSubtitle">
                 Lee el partido 🧠
@@ -549,45 +708,99 @@
 <script>
 
 /* =========================
-   TEXTO POR IDIOMA
+   TEXTO POR IDIOMA (modal resumido)
 ========================= */
 
 const TEXTS = {
     es: {
         splashText: "CARGANDO ESTADIO",
-        question: "🤔 ¿QUIÉN MARCA +1.5 GOLES?",
+        question: "🤔 ¿QUIÉN ANOTA 2 O MÁS GOLES?",
         enter: "ENTRAR AL ESTADIO",
-        title: "⚽ ¿Quién marca +1.5 goles?",
+        title: "⚽ ¿Quién anota 2 o más goles?",
         subtitle: "Lee el partido 🧠",
         confirm: "CONFIRMAR",
         whatsapp: "COMPRAR ENTRADA vía WhatsApp",
         newBet: "NUEVA APUESTA",
         resultTitle: "🎟️ APUESTA REGISTRADA",
-        liveBadge: "🔴 EN VIVO"
+        liveBadge: "🔴 EN VIVO",
+        optionHome: "SOLO MÉXICO",
+        optionNone: "NINGUNO",
+        optionAway: "SOLO SUDÁFRICA",
+        optionBoth: "AMBOS",
+        labelEvent: "⚽ Evento:",
+        labelBet: "🎯 Jugada:",
+        labelEntry: "💰 Entrada:",
+        labelPrize: "🏆 Premio:",
+        priceUp: "📊 La opción subió a",
+        priceDown: "⚡ Las otras opciones bajaron -$1",
+        alertSelect: "⚠️ Selecciona una jugada antes de confirmar",
+        modalTitle: "❓ ¿CÓMO FUNCIONA?",
+        modalOptionHome: "🇲🇽 Solo Local → Local anota 2+ goles",
+        modalOptionNone: "🔒 Ninguno → Ningún equipo anota 2+ goles",
+        modalOptionAway: "🇿🇦 Solo Visitante → Visitante anota 2+ goles",
+        modalOptionBoth: "⚽⚽ Ambos → Ambos anotan 2+ goles",
+        modalPrize: "💰 Premio: $20 si aciertas",
+        modalClose: "¡ENTENDIDO!"
     },
     en: {
         splashText: "LOADING STADIUM",
-        question: "🤔 WHO SCORES +1.5 GOALS?",
+        question: "🤔 WHO SCORES 2 OR MORE GOALS?",
         enter: "ENTER THE STADIUM",
-        title: "⚽ Who scores +1.5 goals?",
+        title: "⚽ Who scores 2 or more goals?",
         subtitle: "Read the match 🧠",
         confirm: "CONFIRM",
         whatsapp: "BUY TICKET via WhatsApp",
         newBet: "NEW BET",
         resultTitle: "🎟️ BET REGISTERED",
-        liveBadge: "🔴 LIVE"
+        liveBadge: "🔴 LIVE",
+        optionHome: "ONLY MEXICO",
+        optionNone: "NONE",
+        optionAway: "ONLY SOUTH AFRICA",
+        optionBoth: "BOTH",
+        labelEvent: "⚽ Event:",
+        labelBet: "🎯 Bet:",
+        labelEntry: "💰 Entry:",
+        labelPrize: "🏆 Prize:",
+        priceUp: "📊 Your option rose to",
+        priceDown: "⚡ The other options dropped -$1",
+        alertSelect: "⚠️ Select a bet before confirming",
+        modalTitle: "❓ HOW DOES IT WORK?",
+        modalOptionHome: "🇲🇽 Only Home → Home scores 2+ goals",
+        modalOptionNone: "🔒 None → Neither team scores 2+ goals",
+        modalOptionAway: "🇿🇦 Only Away → Away scores 2+ goals",
+        modalOptionBoth: "⚽⚽ Both → Both teams score 2+ goals",
+        modalPrize: "💰 Prize: $20 if you win",
+        modalClose: "GOT IT!"
     },
     pt: {
         splashText: "CARREGANDO ESTÁDIO",
-        question: "🤔 QUEM MARCA +1.5 GOLS?",
+        question: "🤔 QUEM MARCA 2 OU MAIS GOLS?",
         enter: "ENTRAR NO ESTÁDIO",
-        title: "⚽ Quem marca +1.5 gols?",
+        title: "⚽ Quem marca 2 ou mais gols?",
         subtitle: "Leia o jogo 🧠",
         confirm: "CONFIRMAR",
         whatsapp: "COMPRAR ENTRADA via WhatsApp",
         newBet: "NOVA APOSTA",
         resultTitle: "🎟️ APOSTA REGISTRADA",
-        liveBadge: "🔴 AO VIVO"
+        liveBadge: "🔴 AO VIVO",
+        optionHome: "SÓ MÉXICO",
+        optionNone: "NINGUÉM",
+        optionAway: "SÓ ÁFRICA DO SUL",
+        optionBoth: "AMBOS",
+        labelEvent: "⚽ Evento:",
+        labelBet: "🎯 Jogada:",
+        labelEntry: "💰 Entrada:",
+        labelPrize: "🏆 Prêmio:",
+        priceUp: "📊 A opção subiu para",
+        priceDown: "⚡ As outras opções caíram -$1",
+        alertSelect: "⚠️ Selecione uma jogada antes de confirmar",
+        modalTitle: "❓ COMO FUNCIONA?",
+        modalOptionHome: "🇲🇽 Só Mandante → Mandante faz 2+ gols",
+        modalOptionNone: "🔒 Ninguém → Nenhum time faz 2+ gols",
+        modalOptionAway: "🇿🇦 Só Visitante → Visitante faz 2+ gols",
+        modalOptionBoth: "⚽⚽ Ambos → Ambos fazem 2+ gols",
+        modalPrize: "💰 Prêmio: $20 se acertar",
+        modalClose: "ENTENDI!"
     }
 };
 
@@ -597,7 +810,6 @@ function setLang(lang) {
     currentLang = lang;
     const t = TEXTS[lang];
     
-    // Actualizar textos en la UI
     const splashTextEl = document.getElementById('splashText');
     const heroQuestionEl = document.getElementById('heroQuestion');
     const enterBtnEl = document.getElementById('enterBtn');
@@ -607,7 +819,7 @@ function setLang(lang) {
     const whatsappBtnEl = document.getElementById('whatsappBtn');
     const newBetBtnEl = document.getElementById('newBetBtn');
     const resultTitleEl = document.getElementById('resultTitle');
-    const liveBadgeEl = document.querySelector('.live-badge-corner');
+    const liveBadgeEl = document.getElementById('liveBadge');
     
     if (splashTextEl) splashTextEl.textContent = t.splashText;
     if (heroQuestionEl) heroQuestionEl.textContent = t.question;
@@ -620,38 +832,93 @@ function setLang(lang) {
     if (resultTitleEl) resultTitleEl.textContent = t.resultTitle;
     if (liveBadgeEl) liveBadgeEl.textContent = t.liveBadge;
     
-    // Resaltar botón activo
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        const isActive = btn.dataset.lang === lang;
-        btn.style.background = isActive ? 'rgba(255,215,0,0.2)' : 'rgba(255,255,255,0.08)';
-        btn.style.borderColor = isActive ? 'var(--gold)' : 'rgba(255,255,255,0.2)';
-        btn.style.color = isActive ? 'var(--gold)' : '#aaa';
+    document.getElementById('modalTitle').textContent = t.modalTitle;
+    document.getElementById('modalCloseBtn').textContent = t.modalClose;
+    
+    const modalBody = document.getElementById('modalBody');
+    modalBody.innerHTML = `
+        <ul style="list-style:none; padding-left:0;">
+            <li>${t.modalOptionHome}</li>
+            <li>${t.modalOptionNone}</li>
+            <li>${t.modalOptionAway}</li>
+            <li>${t.modalOptionBoth}</li>
+        </ul>
+        <p style="margin-top:12px;"><strong>${t.modalPrize}</strong></p>
+    `;
+    
+    if (window.optionsRendered) {
+        renderOptions();
+    }
+    
+    if (window.betData && document.getElementById('summary').innerHTML !== '') {
+        updateSummaryText();
+    }
+    
+    document.querySelectorAll('.lang-option').forEach(opt => {
+        const isActive = opt.dataset.lang === lang;
+        if (isActive) opt.classList.add('active');
+        else opt.classList.remove('active');
     });
 }
 
 /* =========================
-   CONFIGURACIÓN DEL PARTIDO INAUGURAL
-   México vs Sudáfrica
-   - México y Ninguno: $50 → premio $100
-   - Sudáfrica y Ambos: $10 → premio $100
+   MODAL DE AYUDA
+========================= */
+
+function openHelpModal() {
+    const modal = document.getElementById('helpModal');
+    modal.classList.add('active');
+}
+
+function closeHelpModal() {
+    const modal = document.getElementById('helpModal');
+    modal.classList.remove('active');
+}
+
+document.getElementById('helpModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeHelpModal();
+    }
+});
+
+/* =========================
+   MENÚ DE IDIOMA
+========================= */
+
+const langIcon = document.getElementById('langIcon');
+const langMenu = document.getElementById('langMenu');
+
+langIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    langMenu.classList.toggle('active');
+});
+
+document.addEventListener('click', () => {
+    langMenu.classList.remove('active');
+});
+
+langMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+
+/* =========================
+   CONFIGURACIÓN DEL PARTIDO - NUEVA ESCALA
+   México / Ninguno: $10 → Premio $20
+   Sudáfrica / Ambos: $2 → Premio $20
 ========================= */
 
 const MATCH = {
-    homeTeam: "🇲🇽 MÉXICO",
-    awayTeam: "🇿🇦 SUDÁFRICA",
-    prize: 100,
+    homeTeam: "MÉXICO",
+    awayTeam: "SUDÁFRICA",
+    prize: 20,
     whatsapp: "573016031886",
     prices: {
-        home: 50,   // México - más probable → más caro
-        none: 50,   // Ninguno - más probable → más caro
-        away: 10,   // Sudáfrica - menos probable → más barato
-        both: 10    // Ambos - menos probable → más barato
+        home: 10,
+        none: 10,
+        away: 2,
+        both: 2
     }
 };
-
-/* =========================
-   CONTADOR SOCIAL
-========================= */
 
 let betCounter = 7;
 
@@ -670,20 +937,16 @@ function incrementCounter() {
     updateSocialCounter();
 }
 
-/* =========================
-   OPCIONES
-========================= */
-
 const OPTIONS = [
-    { id:"home", icon:"🇲🇽", name:`SOLO ${MATCH.homeTeam}` },
-    { id:"none", icon:"🔒", name:"NINGUNO" },
-    { id:"away", icon:"🇿🇦", name:`SOLO ${MATCH.awayTeam}` },
-    { id:"both", icon:"⚽⚽", name:"AMBOS" }
+    { id:"home", icon:"🇲🇽", nameKey:"optionHome" },
+    { id:"none", icon:"🔒", nameKey:"optionNone" },
+    { id:"away", icon:"🇿🇦", nameKey:"optionAway" },
+    { id:"both", icon:"⚽⚽", nameKey:"optionBoth" }
 ];
 
-/* =========================
-   PRECIOS DINÁMICOS
-========================= */
+function getOptionName(opt) {
+    return TEXTS[currentLang][opt.nameKey];
+}
 
 let currentPrices = {
     home: MATCH.prices.home,
@@ -695,31 +958,21 @@ let currentPrices = {
 let selectedOption = null;
 let selectedPrice = null;
 
-/* =========================
-   PASOS
-========================= */
-
 function showStep(step){
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     const targetStep = document.getElementById(`step-${step}`);
     if(targetStep) targetStep.classList.add('active');
 }
 
-/* =========================
-   SPLASH SCREEN - Transición suave
-========================= */
-
 function hideSplashAndShowHero() {
     const splash = document.getElementById('step-splash');
-    splash.classList.add('fade-out');
-    setTimeout(() => {
-        showStep(0);
+    splash.style.opacity = '0';
+    splash.style.transform = 'scale(0.97)';
+    splash.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+    setTimeout(() => { 
+        showStep(0); 
     }, 450);
 }
-
-/* =========================
-   ENTRAR AL ESTADIO
-========================= */
 
 function enterStadium(){
     document.body.classList.add('entering');
@@ -728,10 +981,6 @@ function enterStadium(){
         document.body.classList.remove('entering');
     }, 600);
 }
-
-/* =========================
-   MERCADO DINÁMICO
-========================= */
 
 function updatePricesAfterBet(optionId){
     let newPrices = {...currentPrices};
@@ -742,15 +991,11 @@ function updatePricesAfterBet(optionId){
         }
     }
     for(let key in newPrices){
-        if(newPrices[key] < 3) newPrices[key] = 3;
-        if(newPrices[key] > 80) newPrices[key] = 80; // Máximo más alto por los $50
+        if(newPrices[key] < 2) newPrices[key] = 2;
+        if(newPrices[key] > 30) newPrices[key] = 30;
     }
     currentPrices = newPrices;
 }
-
-/* =========================
-   CONFETTI
-========================= */
 
 function launchConfetti() {
     const colors = ['#FFD700','#FFA500','#4ade80','#fff','#ff6b6b'];
@@ -767,10 +1012,6 @@ function launchConfetti() {
     }
 }
 
-/* =========================
-   RENDERIZAR OPCIONES
-========================= */
-
 function renderOptions(){
     const grid = document.getElementById('optionsGrid');
     if(!grid) return;
@@ -779,11 +1020,12 @@ function renderOptions(){
     for(let opt of OPTIONS){
         const price = currentPrices[opt.id];
         const isSelected = selectedOption && selectedOption.id === opt.id;
+        const optionName = getOptionName(opt);
         const card = document.createElement('div');
         card.className = `option-card ${isSelected ? 'selected' : ''}`;
         card.innerHTML = `
             <div class="option-icon">${opt.icon}</div>
-            <div class="option-name">${opt.name}</div>
+            <div class="option-name">${optionName}</div>
             <span class="price">$${price}</span>
             <div class="odds-info">🏆 Gana $${MATCH.prize}</div>
         `;
@@ -793,24 +1035,37 @@ function renderOptions(){
             selectedOption = opt;
             selectedPrice = price;
             
-            // Vibración táctil (móvil)
             if (navigator.vibrate) navigator.vibrate(25);
-            
-            // Flash visual de confirmación
             card.style.transform = 'scale(1.06)';
             setTimeout(() => card.style.transform = '', 150);
         });
         grid.appendChild(card);
     }
+    window.optionsRendered = true;
 }
 
-/* =========================
-   CONFIRMAR
-========================= */
+function updateSummaryText() {
+    const summary = document.getElementById('summary');
+    if (!summary || !window.lastBetData) return;
+    
+    const t = TEXTS[currentLang];
+    const data = window.lastBetData;
+    
+    summary.innerHTML = `
+        <p><strong>${t.labelEvent}</strong> ${MATCH.homeTeam} vs ${MATCH.awayTeam}</p>
+        <p><strong>${t.labelBet}</strong> ${data.icon} ${data.name}</p>
+        <p><strong>${t.labelEntry}</strong> $${data.price}</p>
+        <p><strong>${t.labelPrize}</strong> $${MATCH.prize}</p>
+        <p style="margin-top:12px; font-size:0.75rem; color:#FFD700;">
+            ${t.priceUp} <strong>$${data.newPrice}</strong>
+        </p>
+        <p style="font-size:0.65rem; color:#aaa;">${t.priceDown}</p>
+    `;
+}
 
 function confirmBet(){
     if(!selectedOption){
-        alert("⚠️ Selecciona una jugada antes de confirmar");
+        alert(TEXTS[currentLang].alertSelect);
         return;
     }
     
@@ -818,31 +1073,37 @@ function confirmBet(){
     incrementCounter();
     launchConfetti();
     
+    const optionName = getOptionName(selectedOption);
+    
+    window.lastBetData = {
+        icon: selectedOption.icon,
+        name: optionName,
+        price: selectedPrice,
+        newPrice: currentPrices[selectedOption.id]
+    };
+    
+    const t = TEXTS[currentLang];
     const summary = document.getElementById('summary');
     summary.innerHTML = `
-        <p><strong>⚽ Evento:</strong> ${MATCH.homeTeam} vs ${MATCH.awayTeam}</p>
-        <p><strong>🎯 Jugada:</strong> ${selectedOption.icon} ${selectedOption.name}</p>
-        <p><strong>💰 Entrada:</strong> $${selectedPrice}</p>
-        <p><strong>🏆 Premio:</strong> $${MATCH.prize}</p>
+        <p><strong>${t.labelEvent}</strong> ${MATCH.homeTeam} vs ${MATCH.awayTeam}</p>
+        <p><strong>${t.labelBet}</strong> ${selectedOption.icon} ${optionName}</p>
+        <p><strong>${t.labelEntry}</strong> $${selectedPrice}</p>
+        <p><strong>${t.labelPrize}</strong> $${MATCH.prize}</p>
         <p style="margin-top:12px; font-size:0.75rem; color:#FFD700;">
-            📊 La opción subió a <strong>$${currentPrices[selectedOption.id]}</strong>
+            ${t.priceUp} <strong>$${currentPrices[selectedOption.id]}</strong>
         </p>
-        <p style="font-size:0.65rem; color:#aaa;">⚡ Las otras opciones bajaron -$1</p>
+        <p style="font-size:0.65rem; color:#aaa;">${t.priceDown}</p>
     `;
     
     window.betData = {
         icon: selectedOption.icon,
-        name: selectedOption.name,
+        name: optionName,
         price: selectedPrice,
         prize: MATCH.prize
     };
     
     showStep(2);
 }
-
-/* =========================
-   WHATSAPP
-========================= */
 
 function sendWhatsApp(){
     const data = window.betData;
@@ -854,10 +1115,6 @@ function sendWhatsApp(){
                 `🏆 Premio: $${data.prize}`;
     window.open(`https://wa.me/${MATCH.whatsapp}?text=${msg}`, '_blank');
 }
-
-/* =========================
-   REINICIAR
-========================= */
 
 function resetGame(){
     currentPrices = {
@@ -880,11 +1137,12 @@ document.getElementById('enterBtn').addEventListener('click', enterStadium);
 document.getElementById('confirmBtn').addEventListener('click', confirmBet);
 document.getElementById('whatsappBtn').addEventListener('click', sendWhatsApp);
 document.getElementById('newBetBtn').addEventListener('click', resetGame);
+document.getElementById('helpIconGame').addEventListener('click', openHelpModal);
 
-// Eventos de idioma
-document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        setLang(btn.dataset.lang);
+document.querySelectorAll('.lang-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+        setLang(opt.dataset.lang);
+        langMenu.classList.remove('active');
     });
 });
 
@@ -896,7 +1154,6 @@ renderOptions();
 updateSocialCounter();
 setLang('es');
 
-// Ocultar splash después de 2.2 segundos y mostrar Hero
 setTimeout(() => {
     hideSplashAndShowHero();
 }, 2200);
