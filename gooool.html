@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<title>ESTADIO APUESTA - INAUGURAL</title>
+<title>ESTADIO APUESTA - BRASIL vs MARRUECOS</title>
 
 <style>
     :root {
@@ -162,75 +162,6 @@
         0% { opacity: 1; transform: scale(1); }
         50% { opacity: 0.8; transform: scale(1.05); }
         100% { opacity: 1; transform: scale(1); }
-    }
-
-    /* Selector de idioma - ícono globo terráqueo */
-    .lang-icon {
-        position: absolute;
-        top: 12px;
-        right: 20px;
-        background: rgba(255,255,255,0.1);
-        border: 1px solid rgba(255,215,0,0.3);
-        border-radius: 50%;
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        z-index: 2;
-    }
-    
-    .lang-icon:hover {
-        background: rgba(255,215,0,0.2);
-        transform: scale(1.05);
-    }
-    
-    .lang-menu {
-        position: absolute;
-        top: 55px;
-        right: 20px;
-        background: rgba(0,0,0,0.95);
-        backdrop-filter: blur(10px);
-        border: 1px solid var(--gold);
-        border-radius: 20px;
-        padding: 8px;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        z-index: 10;
-        opacity: 0;
-        visibility: hidden;
-        transform: scale(0.9);
-        transition: all 0.2s ease;
-    }
-    
-    .lang-menu.active {
-        opacity: 1;
-        visibility: visible;
-        transform: scale(1);
-    }
-    
-    .lang-option {
-        padding: 8px 16px;
-        border-radius: 50px;
-        cursor: pointer;
-        font-size: 0.8rem;
-        transition: all 0.2s ease;
-        color: #aaa;
-        text-align: center;
-    }
-    
-    .lang-option:hover {
-        background: rgba(255,215,0,0.2);
-        color: var(--gold);
-    }
-    
-    .lang-option.active {
-        background: rgba(255,215,0,0.3);
-        color: var(--gold);
     }
 
     .match-box{
@@ -520,17 +451,14 @@
         margin-bottom: 20px;
     }
     
-    .modal-body p {
-        margin: 8px 0;
-    }
-    
     .modal-body ul {
         margin: 8px 0;
-        padding-left: 20px;
+        padding-left: 0;
+        list-style: none;
     }
     
     .modal-body li {
-        margin: 4px 0;
+        margin: 8px 0;
     }
     
     .modal-close {
@@ -580,17 +508,6 @@
             font-size: 0.65rem;
             padding: 3px 10px;
         }
-        .lang-icon {
-            top: 8px;
-            right: 15px;
-            width: 32px;
-            height: 32px;
-            font-size: 1rem;
-        }
-        .lang-menu {
-            top: 48px;
-            right: 15px;
-        }
     }
 </style>
 </head>
@@ -603,9 +520,17 @@
     <!-- MODAL DE AYUDA -->
     <div id="helpModal" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-title" id="modalTitle">❓ ¿CÓMO FUNCIONA?</div>
-            <div class="modal-body" id="modalBody"></div>
-            <button class="modal-close" onclick="closeHelpModal()" id="modalCloseBtn">¡ENTENDIDO!</button>
+            <div class="modal-title">❓ ¿CÓMO FUNCIONA?</div>
+            <div class="modal-body">
+                <ul>
+                    <li>🇧🇷 <strong>Solo Local</strong> → Brasil anota 2+ goles</li>
+                    <li>🔒 <strong>Ninguno</strong> → Ningún equipo anota 2+ goles</li>
+                    <li>🇲🇦 <strong>Solo Visitante</strong> → Marruecos anota 2+ goles</li>
+                    <li>⚽⚽ <strong>Ambos</strong> → Ambos anotan 2+ goles</li>
+                </ul>
+                <p style="margin-top:12px;"><strong>💰 Premio: $20 si aciertas</strong></p>
+            </div>
+            <button class="modal-close" onclick="closeHelpModal()">¡ENTENDIDO!</button>
         </div>
     </div>
 
@@ -616,7 +541,7 @@
                 <span>⚽</span>
                 <span>🏆</span>
             </div>
-            <p style="color:var(--gold); font-size:1rem; margin-top:20px; letter-spacing:2px;" id="splashText">
+            <p style="color:var(--gold); font-size:1rem; margin-top:20px; letter-spacing:2px;">
                 CARGANDO ESTADIO
             </p>
             <div class="loader-bar">
@@ -631,27 +556,17 @@
     <!-- PASO 0: HERO -->
     <div id="step-0" class="step">
         <div class="hero-overlay">
-            <div class="live-badge-corner" id="liveBadge">
+            <div class="live-badge-corner">
                 🔴 EN VIVO
             </div>
             
-            <div class="lang-icon" id="langIcon">
-                🌐
-            </div>
-            
-            <div class="lang-menu" id="langMenu">
-                <div class="lang-option" data-lang="es">🇪🇸 ESPAÑOL</div>
-                <div class="lang-option" data-lang="en">🇬🇧 ENGLISH</div>
-                <div class="lang-option" data-lang="pt">🇧🇷 PORTUGUÊS</div>
-            </div>
-            
             <div class="match-box">
-                <div class="team">🇲🇽 MÉXICO</div>
+                <div class="team">🇧🇷 BRASIL</div>
                 <div class="vs-divider">VS</div>
-                <div class="team">🇿🇦 SUDÁFRICA</div>
+                <div class="team">🇲🇦 MARRUECOS</div>
             </div>
             
-            <div class="hero-question" id="heroQuestion">
+            <div class="hero-question">
                 🤔 ¿QUIÉN ANOTA 2 O MÁS GOLES?
             </div>
             
@@ -669,12 +584,12 @@
     <div id="step-1" class="step">
         <div class="game-card">
             <div class="title-with-help">
-                <div class="section-title" id="gameTitle">
+                <div class="section-title">
                     ⚽ ¿Quién anota 2 o más goles?
                 </div>
                 <div class="help-icon-game" id="helpIconGame">❓</div>
             </div>
-            <div class="section-subtitle" id="gameSubtitle">
+            <div class="section-subtitle">
                 Lee el partido 🧠
             </div>
             <div class="options-grid" id="optionsGrid"></div>
@@ -690,7 +605,7 @@
     <!-- PASO 2: RESULTADO -->
     <div id="step-2" class="step">
         <div class="result-card">
-            <div class="result-title" id="resultTitle">
+            <div class="result-title">
                 🎟️ APUESTA REGISTRADA
             </div>
             <div class="summary" id="summary"></div>
@@ -708,227 +623,35 @@
 <script>
 
 /* =========================
-   TEXTO POR IDIOMA (modal resumido)
-========================= */
-
-const TEXTS = {
-    es: {
-        splashText: "CARGANDO ESTADIO",
-        question: "🤔 ¿QUIÉN ANOTA 2 O MÁS GOLES?",
-        enter: "ENTRAR AL ESTADIO",
-        title: "⚽ ¿Quién anota 2 o más goles?",
-        subtitle: "Lee el partido 🧠",
-        confirm: "CONFIRMAR",
-        whatsapp: "COMPRAR ENTRADA vía WhatsApp",
-        newBet: "NUEVA APUESTA",
-        resultTitle: "🎟️ APUESTA REGISTRADA",
-        liveBadge: "🔴 EN VIVO",
-        optionHome: "SOLO MÉXICO",
-        optionNone: "NINGUNO",
-        optionAway: "SOLO SUDÁFRICA",
-        optionBoth: "AMBOS",
-        labelEvent: "⚽ Evento:",
-        labelBet: "🎯 Jugada:",
-        labelEntry: "💰 Entrada:",
-        labelPrize: "🏆 Premio:",
-        priceUp: "📊 La opción subió a",
-        priceDown: "⚡ Las otras opciones bajaron -$1",
-        alertSelect: "⚠️ Selecciona una jugada antes de confirmar",
-        modalTitle: "❓ ¿CÓMO FUNCIONA?",
-        modalOptionHome: "🇲🇽 Solo Local → Local anota 2+ goles",
-        modalOptionNone: "🔒 Ninguno → Ningún equipo anota 2+ goles",
-        modalOptionAway: "🇿🇦 Solo Visitante → Visitante anota 2+ goles",
-        modalOptionBoth: "⚽⚽ Ambos → Ambos anotan 2+ goles",
-        modalPrize: "💰 Premio: $20 si aciertas",
-        modalClose: "¡ENTENDIDO!"
-    },
-    en: {
-        splashText: "LOADING STADIUM",
-        question: "🤔 WHO SCORES 2 OR MORE GOALS?",
-        enter: "ENTER THE STADIUM",
-        title: "⚽ Who scores 2 or more goals?",
-        subtitle: "Read the match 🧠",
-        confirm: "CONFIRM",
-        whatsapp: "BUY TICKET via WhatsApp",
-        newBet: "NEW BET",
-        resultTitle: "🎟️ BET REGISTERED",
-        liveBadge: "🔴 LIVE",
-        optionHome: "ONLY MEXICO",
-        optionNone: "NONE",
-        optionAway: "ONLY SOUTH AFRICA",
-        optionBoth: "BOTH",
-        labelEvent: "⚽ Event:",
-        labelBet: "🎯 Bet:",
-        labelEntry: "💰 Entry:",
-        labelPrize: "🏆 Prize:",
-        priceUp: "📊 Your option rose to",
-        priceDown: "⚡ The other options dropped -$1",
-        alertSelect: "⚠️ Select a bet before confirming",
-        modalTitle: "❓ HOW DOES IT WORK?",
-        modalOptionHome: "🇲🇽 Only Home → Home scores 2+ goals",
-        modalOptionNone: "🔒 None → Neither team scores 2+ goals",
-        modalOptionAway: "🇿🇦 Only Away → Away scores 2+ goals",
-        modalOptionBoth: "⚽⚽ Both → Both teams score 2+ goals",
-        modalPrize: "💰 Prize: $20 if you win",
-        modalClose: "GOT IT!"
-    },
-    pt: {
-        splashText: "CARREGANDO ESTÁDIO",
-        question: "🤔 QUEM MARCA 2 OU MAIS GOLS?",
-        enter: "ENTRAR NO ESTÁDIO",
-        title: "⚽ Quem marca 2 ou mais gols?",
-        subtitle: "Leia o jogo 🧠",
-        confirm: "CONFIRMAR",
-        whatsapp: "COMPRAR ENTRADA via WhatsApp",
-        newBet: "NOVA APOSTA",
-        resultTitle: "🎟️ APOSTA REGISTRADA",
-        liveBadge: "🔴 AO VIVO",
-        optionHome: "SÓ MÉXICO",
-        optionNone: "NINGUÉM",
-        optionAway: "SÓ ÁFRICA DO SUL",
-        optionBoth: "AMBOS",
-        labelEvent: "⚽ Evento:",
-        labelBet: "🎯 Jogada:",
-        labelEntry: "💰 Entrada:",
-        labelPrize: "🏆 Prêmio:",
-        priceUp: "📊 A opção subiu para",
-        priceDown: "⚡ As outras opções caíram -$1",
-        alertSelect: "⚠️ Selecione uma jogada antes de confirmar",
-        modalTitle: "❓ COMO FUNCIONA?",
-        modalOptionHome: "🇲🇽 Só Mandante → Mandante faz 2+ gols",
-        modalOptionNone: "🔒 Ninguém → Nenhum time faz 2+ gols",
-        modalOptionAway: "🇿🇦 Só Visitante → Visitante faz 2+ gols",
-        modalOptionBoth: "⚽⚽ Ambos → Ambos fazem 2+ gols",
-        modalPrize: "💰 Prêmio: $20 se acertar",
-        modalClose: "ENTENDI!"
-    }
-};
-
-let currentLang = 'es';
-
-function setLang(lang) {
-    currentLang = lang;
-    const t = TEXTS[lang];
-    
-    const splashTextEl = document.getElementById('splashText');
-    const heroQuestionEl = document.getElementById('heroQuestion');
-    const enterBtnEl = document.getElementById('enterBtn');
-    const gameTitleEl = document.getElementById('gameTitle');
-    const gameSubtitleEl = document.getElementById('gameSubtitle');
-    const confirmBtnEl = document.getElementById('confirmBtn');
-    const whatsappBtnEl = document.getElementById('whatsappBtn');
-    const newBetBtnEl = document.getElementById('newBetBtn');
-    const resultTitleEl = document.getElementById('resultTitle');
-    const liveBadgeEl = document.getElementById('liveBadge');
-    
-    if (splashTextEl) splashTextEl.textContent = t.splashText;
-    if (heroQuestionEl) heroQuestionEl.textContent = t.question;
-    if (enterBtnEl) enterBtnEl.textContent = t.enter;
-    if (gameTitleEl) gameTitleEl.textContent = t.title;
-    if (gameSubtitleEl) gameSubtitleEl.textContent = t.subtitle;
-    if (confirmBtnEl) confirmBtnEl.textContent = t.confirm;
-    if (whatsappBtnEl) whatsappBtnEl.textContent = t.whatsapp;
-    if (newBetBtnEl) newBetBtnEl.textContent = t.newBet;
-    if (resultTitleEl) resultTitleEl.textContent = t.resultTitle;
-    if (liveBadgeEl) liveBadgeEl.textContent = t.liveBadge;
-    
-    document.getElementById('modalTitle').textContent = t.modalTitle;
-    document.getElementById('modalCloseBtn').textContent = t.modalClose;
-    
-    const modalBody = document.getElementById('modalBody');
-    modalBody.innerHTML = `
-        <ul style="list-style:none; padding-left:0;">
-            <li>${t.modalOptionHome}</li>
-            <li>${t.modalOptionNone}</li>
-            <li>${t.modalOptionAway}</li>
-            <li>${t.modalOptionBoth}</li>
-        </ul>
-        <p style="margin-top:12px;"><strong>${t.modalPrize}</strong></p>
-    `;
-    
-    if (window.optionsRendered) {
-        renderOptions();
-    }
-    
-    if (window.betData && document.getElementById('summary').innerHTML !== '') {
-        updateSummaryText();
-    }
-    
-    document.querySelectorAll('.lang-option').forEach(opt => {
-        const isActive = opt.dataset.lang === lang;
-        if (isActive) opt.classList.add('active');
-        else opt.classList.remove('active');
-    });
-}
-
-/* =========================
-   MODAL DE AYUDA
-========================= */
-
-function openHelpModal() {
-    const modal = document.getElementById('helpModal');
-    modal.classList.add('active');
-}
-
-function closeHelpModal() {
-    const modal = document.getElementById('helpModal');
-    modal.classList.remove('active');
-}
-
-document.getElementById('helpModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeHelpModal();
-    }
-});
-
-/* =========================
-   MENÚ DE IDIOMA
-========================= */
-
-const langIcon = document.getElementById('langIcon');
-const langMenu = document.getElementById('langMenu');
-
-langIcon.addEventListener('click', (e) => {
-    e.stopPropagation();
-    langMenu.classList.toggle('active');
-});
-
-document.addEventListener('click', () => {
-    langMenu.classList.remove('active');
-});
-
-langMenu.addEventListener('click', (e) => {
-    e.stopPropagation();
-});
-
-/* =========================
-   CONFIGURACIÓN DEL PARTIDO - NUEVA ESCALA
-   México / Ninguno: $10 → Premio $20
-   Sudáfrica / Ambos: $2 → Premio $20
+   CONFIGURACIÓN DEL PARTIDO
+   Brasil vs Marruecos
+   Brasil / Ninguno: $9 → Premio $20
+   Marruecos / Ambos: $2 → Premio $20
 ========================= */
 
 const MATCH = {
-    homeTeam: "MÉXICO",
-    awayTeam: "SUDÁFRICA",
+    homeTeam: "BRASIL",
+    awayTeam: "MARRUECOS",
     prize: 20,
     whatsapp: "573016031886",
     prices: {
-        home: 10,
-        none: 10,
+        home: 9,
+        none: 9,
         away: 2,
         both: 2
     }
 };
+
+/* =========================
+   CONTADOR SOCIAL
+========================= */
 
 let betCounter = 7;
 
 function updateSocialCounter() {
     const counterEl = document.getElementById('socialCounter');
     if (counterEl) {
-        const text = currentLang === 'es' ? 'personas ya eligieron una jugada' : 
-                     currentLang === 'en' ? 'people already made a bet' : 
-                     'pessoas já escolheram uma jogada';
-        counterEl.innerHTML = `🔥 ${betCounter} ${text}`;
+        counterEl.innerHTML = `🔥 ${betCounter} personas ya eligieron una jugada`;
     }
 }
 
@@ -937,16 +660,20 @@ function incrementCounter() {
     updateSocialCounter();
 }
 
+/* =========================
+   OPCIONES
+========================= */
+
 const OPTIONS = [
-    { id:"home", icon:"🇲🇽", nameKey:"optionHome" },
-    { id:"none", icon:"🔒", nameKey:"optionNone" },
-    { id:"away", icon:"🇿🇦", nameKey:"optionAway" },
-    { id:"both", icon:"⚽⚽", nameKey:"optionBoth" }
+    { id:"home", icon:"🇧🇷", name:"SOLO BRASIL" },
+    { id:"none", icon:"🔒", name:"NINGUNO" },
+    { id:"away", icon:"🇲🇦", name:"SOLO MARRUECOS" },
+    { id:"both", icon:"⚽⚽", name:"AMBOS" }
 ];
 
-function getOptionName(opt) {
-    return TEXTS[currentLang][opt.nameKey];
-}
+/* =========================
+   PRECIOS DINÁMICOS
+========================= */
 
 let currentPrices = {
     home: MATCH.prices.home,
@@ -958,11 +685,19 @@ let currentPrices = {
 let selectedOption = null;
 let selectedPrice = null;
 
+/* =========================
+   PASOS
+========================= */
+
 function showStep(step){
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     const targetStep = document.getElementById(`step-${step}`);
     if(targetStep) targetStep.classList.add('active');
 }
+
+/* =========================
+   SPLASH Y ENTRADA
+========================= */
 
 function hideSplashAndShowHero() {
     const splash = document.getElementById('step-splash');
@@ -982,6 +717,10 @@ function enterStadium(){
     }, 600);
 }
 
+/* =========================
+   MERCADO DINÁMICO
+========================= */
+
 function updatePricesAfterBet(optionId){
     let newPrices = {...currentPrices};
     newPrices[optionId] += 3;
@@ -996,6 +735,10 @@ function updatePricesAfterBet(optionId){
     }
     currentPrices = newPrices;
 }
+
+/* =========================
+   CONFETTI
+========================= */
 
 function launchConfetti() {
     const colors = ['#FFD700','#FFA500','#4ade80','#fff','#ff6b6b'];
@@ -1012,6 +755,10 @@ function launchConfetti() {
     }
 }
 
+/* =========================
+   RENDERIZAR OPCIONES
+========================= */
+
 function renderOptions(){
     const grid = document.getElementById('optionsGrid');
     if(!grid) return;
@@ -1020,12 +767,11 @@ function renderOptions(){
     for(let opt of OPTIONS){
         const price = currentPrices[opt.id];
         const isSelected = selectedOption && selectedOption.id === opt.id;
-        const optionName = getOptionName(opt);
         const card = document.createElement('div');
         card.className = `option-card ${isSelected ? 'selected' : ''}`;
         card.innerHTML = `
             <div class="option-icon">${opt.icon}</div>
-            <div class="option-name">${optionName}</div>
+            <div class="option-name">${opt.name}</div>
             <span class="price">$${price}</span>
             <div class="odds-info">🏆 Gana $${MATCH.prize}</div>
         `;
@@ -1041,31 +787,15 @@ function renderOptions(){
         });
         grid.appendChild(card);
     }
-    window.optionsRendered = true;
 }
 
-function updateSummaryText() {
-    const summary = document.getElementById('summary');
-    if (!summary || !window.lastBetData) return;
-    
-    const t = TEXTS[currentLang];
-    const data = window.lastBetData;
-    
-    summary.innerHTML = `
-        <p><strong>${t.labelEvent}</strong> ${MATCH.homeTeam} vs ${MATCH.awayTeam}</p>
-        <p><strong>${t.labelBet}</strong> ${data.icon} ${data.name}</p>
-        <p><strong>${t.labelEntry}</strong> $${data.price}</p>
-        <p><strong>${t.labelPrize}</strong> $${MATCH.prize}</p>
-        <p style="margin-top:12px; font-size:0.75rem; color:#FFD700;">
-            ${t.priceUp} <strong>$${data.newPrice}</strong>
-        </p>
-        <p style="font-size:0.65rem; color:#aaa;">${t.priceDown}</p>
-    `;
-}
+/* =========================
+   CONFIRMAR APUESTA
+========================= */
 
 function confirmBet(){
     if(!selectedOption){
-        alert(TEXTS[currentLang].alertSelect);
+        alert("⚠️ Selecciona una jugada antes de confirmar");
         return;
     }
     
@@ -1073,31 +803,21 @@ function confirmBet(){
     incrementCounter();
     launchConfetti();
     
-    const optionName = getOptionName(selectedOption);
-    
-    window.lastBetData = {
-        icon: selectedOption.icon,
-        name: optionName,
-        price: selectedPrice,
-        newPrice: currentPrices[selectedOption.id]
-    };
-    
-    const t = TEXTS[currentLang];
     const summary = document.getElementById('summary');
     summary.innerHTML = `
-        <p><strong>${t.labelEvent}</strong> ${MATCH.homeTeam} vs ${MATCH.awayTeam}</p>
-        <p><strong>${t.labelBet}</strong> ${selectedOption.icon} ${optionName}</p>
-        <p><strong>${t.labelEntry}</strong> $${selectedPrice}</p>
-        <p><strong>${t.labelPrize}</strong> $${MATCH.prize}</p>
+        <p><strong>⚽ Evento:</strong> ${MATCH.homeTeam} vs ${MATCH.awayTeam}</p>
+        <p><strong>🎯 Jugada:</strong> ${selectedOption.icon} ${selectedOption.name}</p>
+        <p><strong>💰 Entrada:</strong> $${selectedPrice}</p>
+        <p><strong>🏆 Premio:</strong> $${MATCH.prize}</p>
         <p style="margin-top:12px; font-size:0.75rem; color:#FFD700;">
-            ${t.priceUp} <strong>$${currentPrices[selectedOption.id]}</strong>
+            📊 La opción subió a <strong>$${currentPrices[selectedOption.id]}</strong>
         </p>
-        <p style="font-size:0.65rem; color:#aaa;">${t.priceDown}</p>
+        <p style="font-size:0.65rem; color:#aaa;">⚡ Las otras opciones bajaron -$1</p>
     `;
     
     window.betData = {
         icon: selectedOption.icon,
-        name: optionName,
+        name: selectedOption.name,
         price: selectedPrice,
         prize: MATCH.prize
     };
@@ -1105,16 +825,24 @@ function confirmBet(){
     showStep(2);
 }
 
+/* =========================
+   WHATSAPP
+========================= */
+
 function sendWhatsApp(){
     const data = window.betData;
     if(!data) return;
-    const msg = `🎟️ *ESTADIO APUESTA - INAUGURAL* 🎟️%0A%0A` +
+    const msg = `🎟️ *ESTADIO APUESTA* 🎟️%0A%0A` +
                 `⚽ ${MATCH.homeTeam} vs ${MATCH.awayTeam}%0A` +
                 `🎯 ${data.icon} ${data.name}%0A` +
                 `💰 Entrada: $${data.price}%0A` +
                 `🏆 Premio: $${data.prize}`;
     window.open(`https://wa.me/${MATCH.whatsapp}?text=${msg}`, '_blank');
 }
+
+/* =========================
+   REINICIAR
+========================= */
 
 function resetGame(){
     currentPrices = {
@@ -1130,6 +858,26 @@ function resetGame(){
 }
 
 /* =========================
+   MODAL
+========================= */
+
+function openHelpModal() {
+    const modal = document.getElementById('helpModal');
+    modal.classList.add('active');
+}
+
+function closeHelpModal() {
+    const modal = document.getElementById('helpModal');
+    modal.classList.remove('active');
+}
+
+document.getElementById('helpModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeHelpModal();
+    }
+});
+
+/* =========================
    EVENTOS
 ========================= */
 
@@ -1139,20 +887,12 @@ document.getElementById('whatsappBtn').addEventListener('click', sendWhatsApp);
 document.getElementById('newBetBtn').addEventListener('click', resetGame);
 document.getElementById('helpIconGame').addEventListener('click', openHelpModal);
 
-document.querySelectorAll('.lang-option').forEach(opt => {
-    opt.addEventListener('click', () => {
-        setLang(opt.dataset.lang);
-        langMenu.classList.remove('active');
-    });
-});
-
 /* =========================
    INICIALIZAR
 ========================= */
 
 renderOptions();
 updateSocialCounter();
-setLang('es');
 
 setTimeout(() => {
     hideSplashAndShowHero();
