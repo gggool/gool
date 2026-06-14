@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<title>ESTADIO APUESTA - BRASIL vs MARRUECOS</title>
+<title>ESTADIO APUESTA - PAÍSES BAJOS vs JAPÓN</title>
 
 <style>
     :root {
@@ -523,9 +523,9 @@
             <div class="modal-title">❓ ¿CÓMO FUNCIONA?</div>
             <div class="modal-body">
                 <ul>
-                    <li>🇧🇷 <strong>Solo Local</strong> → Brasil anota 2+ goles</li>
+                    <li>🇳🇱 <strong>Solo Local</strong> → Países Bajos anota 2+ goles</li>
                     <li>🔒 <strong>Ninguno</strong> → Ningún equipo anota 2+ goles</li>
-                    <li>🇲🇦 <strong>Solo Visitante</strong> → Marruecos anota 2+ goles</li>
+                    <li>🇯🇵 <strong>Solo Visitante</strong> → Japón anota 2+ goles</li>
                     <li>⚽⚽ <strong>Ambos</strong> → Ambos anotan 2+ goles</li>
                 </ul>
                 <p style="margin-top:12px;"><strong>💰 Premio: $20 si aciertas</strong></p>
@@ -561,9 +561,9 @@
             </div>
             
             <div class="match-box">
-                <div class="team">🇧🇷 BRASIL</div>
+                <div class="team">🇳🇱 PAÍSES BAJOS</div>
                 <div class="vs-divider">VS</div>
-                <div class="team">🇲🇦 MARRUECOS</div>
+                <div class="team">🇯🇵 JAPÓN</div>
             </div>
             
             <div class="hero-question">
@@ -624,21 +624,21 @@
 
 /* =========================
    CONFIGURACIÓN DEL PARTIDO
-   Brasil vs Marruecos
-   Brasil / Ninguno: $9 → Premio $20
-   Marruecos / Ambos: $2 → Premio $20
+   Países Bajos vs Japón
+   Países Bajos / Ninguno: $7 → Premio $20
+   Japón / Ambos: $3 → Premio $20
 ========================= */
 
 const MATCH = {
-    homeTeam: "BRASIL",
-    awayTeam: "MARRUECOS",
+    homeTeam: "PAÍSES BAJOS",
+    awayTeam: "JAPÓN",
     prize: 20,
     whatsapp: "573016031886",
     prices: {
-        home: 9,
-        none: 9,
-        away: 2,
-        both: 2
+        home: 7,
+        none: 7,
+        away: 3,
+        both: 3
     }
 };
 
@@ -665,9 +665,9 @@ function incrementCounter() {
 ========================= */
 
 const OPTIONS = [
-    { id:"home", icon:"🇧🇷", name:"SOLO BRASIL" },
+    { id:"home", icon:"🇳🇱", name:"SOLO PAÍSES BAJOS" },
     { id:"none", icon:"🔒", name:"NINGUNO" },
-    { id:"away", icon:"🇲🇦", name:"SOLO MARRUECOS" },
+    { id:"away", icon:"🇯🇵", name:"SOLO JAPÓN" },
     { id:"both", icon:"⚽⚽", name:"AMBOS" }
 ];
 
@@ -730,7 +730,7 @@ function updatePricesAfterBet(optionId){
         }
     }
     for(let key in newPrices){
-        if(newPrices[key] < 2) newPrices[key] = 2;
+        if(newPrices[key] < 3) newPrices[key] = 3;
         if(newPrices[key] > 30) newPrices[key] = 30;
     }
     currentPrices = newPrices;
