@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<title>ESTADIO APUESTA - PAÍSES BAJOS vs JAPÓN</title>
+<title>ESTADIO APUESTA - ARABIA SAUDITA vs URUGUAY</title>
 
 <style>
     :root {
@@ -169,9 +169,9 @@
     }
 
     .team{
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         font-weight: 900;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         text-transform: uppercase;
         color: white;
         text-shadow: 0 0 15px rgba(0,0,0,0.5);
@@ -494,7 +494,7 @@
             padding: 20px 15px;
         }
         .team{
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
         .hero-question{
             font-size: 0.8rem;
@@ -523,9 +523,9 @@
             <div class="modal-title">❓ ¿CÓMO FUNCIONA?</div>
             <div class="modal-body">
                 <ul>
-                    <li>🇳🇱 <strong>Solo Local</strong> → Países Bajos anota 2+ goles</li>
+                    <li>🇸🇦 <strong>Solo Local</strong> → Arabia Saudita anota 2+ goles</li>
                     <li>🔒 <strong>Ninguno</strong> → Ningún equipo anota 2+ goles</li>
-                    <li>🇯🇵 <strong>Solo Visitante</strong> → Japón anota 2+ goles</li>
+                    <li>🇺🇾 <strong>Solo Visitante</strong> → Uruguay anota 2+ goles</li>
                     <li>⚽⚽ <strong>Ambos</strong> → Ambos anotan 2+ goles</li>
                 </ul>
                 <p style="margin-top:12px;"><strong>💰 Premio: $20 si aciertas</strong></p>
@@ -561,9 +561,9 @@
             </div>
             
             <div class="match-box">
-                <div class="team">🇳🇱 PAÍSES BAJOS</div>
+                <div class="team">🇸🇦 ARABIA SAUDITA</div>
                 <div class="vs-divider">VS</div>
-                <div class="team">🇯🇵 JAPÓN</div>
+                <div class="team">🇺🇾 URUGUAY</div>
             </div>
             
             <div class="hero-question">
@@ -624,21 +624,21 @@
 
 /* =========================
    CONFIGURACIÓN DEL PARTIDO
-   Países Bajos vs Japón
-   Países Bajos / Ninguno: $7 → Premio $20
-   Japón / Ambos: $3 → Premio $20
+   Arabia Saudita vs Uruguay
+   Uruguay / Ninguno: $9 → Premio $20
+   Arabia / Ambos: $1 → Premio $20
 ========================= */
 
 const MATCH = {
-    homeTeam: "PAÍSES BAJOS",
-    awayTeam: "JAPÓN",
+    homeTeam: "ARABIA SAUDITA",
+    awayTeam: "URUGUAY",
     prize: 20,
     whatsapp: "573016031886",
     prices: {
-        home: 7,
-        none: 7,
-        away: 3,
-        both: 3
+        home: 1,
+        none: 9,
+        away: 9,
+        both: 1
     }
 };
 
@@ -665,9 +665,9 @@ function incrementCounter() {
 ========================= */
 
 const OPTIONS = [
-    { id:"home", icon:"🇳🇱", name:"SOLO PAÍSES BAJOS" },
+    { id:"home", icon:"🇸🇦", name:"SOLO ARABIA" },
     { id:"none", icon:"🔒", name:"NINGUNO" },
-    { id:"away", icon:"🇯🇵", name:"SOLO JAPÓN" },
+    { id:"away", icon:"🇺🇾", name:"SOLO URUGUAY" },
     { id:"both", icon:"⚽⚽", name:"AMBOS" }
 ];
 
@@ -730,7 +730,7 @@ function updatePricesAfterBet(optionId){
         }
     }
     for(let key in newPrices){
-        if(newPrices[key] < 3) newPrices[key] = 3;
+        if(newPrices[key] < 1) newPrices[key] = 1;
         if(newPrices[key] > 30) newPrices[key] = 30;
     }
     currentPrices = newPrices;
