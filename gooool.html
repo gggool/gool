@@ -41,7 +41,7 @@
         inset:0;
         background:
             linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.85)),
-            url('img.jpeg');
+            url('https://i.ibb.co/Cty52yx/Whats-App-Image-2024-12-11-at-9-33-34-PM.jpg');
         background-size:cover;
         background-position:center;
         transition:transform 1.2s ease, filter 1.2s ease;
@@ -626,7 +626,7 @@
    CONFIGURACIÓN DEL PARTIDO
    Arabia Saudita vs Uruguay
    Uruguay / Ninguno: $9 → Premio $20
-   Arabia / Ambos: $1 → Premio $20
+   Arabia / Ambos: $2 → Premio $20
 ========================= */
 
 const MATCH = {
@@ -635,10 +635,10 @@ const MATCH = {
     prize: 20,
     whatsapp: "573016031886",
     prices: {
-        home: 1,
+        home: 2,
         none: 9,
         away: 9,
-        both: 1
+        both: 2
     }
 };
 
@@ -730,7 +730,7 @@ function updatePricesAfterBet(optionId){
         }
     }
     for(let key in newPrices){
-        if(newPrices[key] < 1) newPrices[key] = 1;
+        if(newPrices[key] < 2) newPrices[key] = 2;
         if(newPrices[key] > 30) newPrices[key] = 30;
     }
     currentPrices = newPrices;
