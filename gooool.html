@@ -76,6 +76,27 @@
         transform:translateY(0);
     }
 
+    /* PAPEL PICADO - animación (para TODOS los partidos) */
+    .confetti-arg {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        font-size: 1.2rem;
+        animation: confettiFallArg 3s ease-in forwards;
+        opacity: 0;
+    }
+
+    @keyframes confettiFallArg {
+        0% {
+            transform: translateY(-20px) rotate(0deg) scale(0.8);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(110vh) rotate(720deg) scale(1);
+            opacity: 0;
+        }
+    }
+
     /* SPLASH SCREEN */
     .splash-content {
         text-align: center;
@@ -204,11 +225,17 @@
         background: rgba(255,215,0,0.12);
         border: 1px solid rgba(255,215,0,0.25);
         border-radius: 50px;
-        padding: 6px 14px;
+        padding: 8px 18px;
         margin: 15px 0 12px;
-        font-size: 0.75rem;
+        font-size: 0.8rem;
         color: var(--gold);
         display: inline-block;
+        animation: socialPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes socialPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.02); }
     }
 
     button{
@@ -575,7 +602,7 @@
             </div>
             
             <div class="social-proof" id="socialCounter">
-                🔥 167 personas ya eligieron una jugada
+                🔥 157 personas ya eligieron una jugada
             </div>
             
             <button class="btn-main" id="enterBtn">
@@ -627,6 +654,29 @@
 <script>
 
 /* =========================
+   PAPEL PICADO CELESTE Y BLANCO (para TODOS los partidos)
+========================= */
+
+function launchPapelPicado() {
+    const emojis = ['🟦', '⬜', '🟦', '⬜', '✨', '⭐', '🟦', '⬜'];
+    const colors = ['#75AADB', '#FFFFFF', '#75AADB', '#FFFFFF'];
+    
+    for (let i = 0; i < 40; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-arg';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = '-10px';
+        el.style.fontSize = (0.8 + Math.random() * 0.8) + 'rem';
+        el.style.animationDuration = (2 + Math.random() * 2) + 's';
+        el.style.animationDelay = Math.random() * 0.8 + 's';
+        el.style.color = colors[Math.floor(Math.random() * colors.length)];
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 4500);
+    }
+}
+
+/* =========================
    CONFIGURACIÓN DEL PARTIDO
    Inglaterra vs Croacia
    Inglaterra / Ninguno: $9 → Premio $20
@@ -647,10 +697,10 @@ const MATCH = {
 };
 
 /* =========================
-   CONTADOR SOCIAL
+   CONTADOR SOCIAL (157 personas)
 ========================= */
 
-let betCounter = 7;
+let betCounter = 157;
 
 function updateSocialCounter() {
     const counterEl = document.getElementById('socialCounter');
@@ -715,6 +765,7 @@ function hideSplashAndShowHero() {
 
 function enterStadium(){
     document.body.classList.add('entering');
+    launchPapelPicado(); // 🎊 Papel picado celeste y blanco
     setTimeout(() => {
         showStep(1);
         document.body.classList.remove('entering');
@@ -745,8 +796,8 @@ function updatePricesAfterBet(optionId){
 ========================= */
 
 function launchConfetti() {
-    const colors = ['#FFD700','#FFA500','#4ade80','#fff','#ff6b6b'];
-    for (let i = 0; i < 30; i++) {
+    const colors = ['#75AADB', '#FFFFFF', '#FFD700', '#4ade80', '#ff6b6b'];
+    for (let i = 0; i < 35; i++) {
         const el = document.createElement('div');
         el.className = 'confetti-piece';
         el.style.left = Math.random() * 100 + 'vw';
