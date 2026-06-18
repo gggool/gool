@@ -76,7 +76,7 @@
         transform:translateY(0);
     }
 
-    /* PAPEL PICADO - animación (para TODOS los partidos) */
+    /* PAPEL PICADO */
     .confetti-arg {
         position: fixed;
         pointer-events: none;
@@ -263,10 +263,14 @@
         opacity: 0.9;
     }
 
-    .btn-whatsapp{
-        background:#25D366;
+    .btn-telegram{
+        background:#0088cc;
         color:white;
         margin-bottom:10px;
+    }
+
+    .btn-telegram:hover{
+        opacity: 0.9;
     }
 
     .btn-secondary{
@@ -429,6 +433,22 @@
         100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
 
+    /* MENSAJE DE PAGO */
+    .pago-info {
+        background: rgba(255,215,0,0.1);
+        border: 1px solid var(--gold);
+        border-radius: 16px;
+        padding: 16px;
+        margin: 16px 0;
+        text-align: left;
+        font-size: 0.85rem;
+        line-height: 1.6;
+    }
+
+    .pago-info strong {
+        color: var(--gold);
+    }
+
     /* MODAL DE AYUDA */
     .modal-overlay {
         position: fixed;
@@ -539,6 +559,10 @@
             font-size: 0.65rem;
             padding: 3px 10px;
         }
+        .pago-info {
+            font-size: 0.75rem;
+            padding: 12px;
+        }
     }
 </style>
 </head>
@@ -633,18 +657,34 @@
         </div>
     </div>
 
-    <!-- PASO 2: RESULTADO -->
+    <!-- PASO 2: RESULTADO - SIN WHATSAPP, SOLO TELEGRAM -->
     <div id="step-2" class="step">
         <div class="result-card">
             <div class="result-title">
                 🎟️ APUESTA REGISTRADA
             </div>
             <div class="summary" id="summary"></div>
-            <button class="btn-whatsapp" id="whatsappBtn">
-                COMPRAR ENTRADA vía WhatsApp
+
+            <!-- INSTRUCCIONES DE PAGO POR TELEGRAM -->
+            <div class="pago-info">
+                <p>💬 <strong>Ahora pagá por Telegram:</strong></p>
+                <p>1️⃣ Transferí <strong>$8</strong> a esta cuenta:</p>
+                <p style="background:rgba(0,0,0,0.3); padding:8px; border-radius:8px; margin:6px 0;">
+                    📲 <strong>CBU: 1234567890123456789012</strong>
+                    <br>
+                    Titular: Juan Pérez
+                </p>
+                <p>2️⃣ Enviá el <strong>comprobante</strong> en el chat del bot.</p>
+                <p>✅ Es un chat privado, nadie más lo ve.</p>
+            </div>
+
+            <!-- BOTÓN QUE ABRE EL CHAT DEL BOT (NO WHATSAPP) -->
+            <button class="btn-telegram" id="telegramBtn">
+                💬 PAGAR EN EL CHAT
             </button>
+            
             <button class="btn-secondary" id="newBetBtn">
-                NUEVA APUESTA
+                🔄 NUEVA APUESTA
             </button>
         </div>
     </div>
@@ -654,7 +694,7 @@
 <script>
 
 /* =========================
-   PAPEL PICADO CELESTE Y BLANCO (para TODOS los partidos)
+   PAPEL PICADO CELESTE Y BLANCO
 ========================= */
 
 function launchPapelPicado() {
@@ -687,7 +727,8 @@ const MATCH = {
     homeTeam: "MÉXICO",
     awayTeam: "COREA",
     prize: 20,
-    whatsapp: "573016031886",
+    // EL BOT DE TELEGRAM (reemplazá con el nombre de usuario de tu bot)
+    botUsername: "@Gool2026Bot",  
     prices: {
         home: 8,
         none: 8,
@@ -765,7 +806,7 @@ function hideSplashAndShowHero() {
 
 function enterStadium(){
     document.body.classList.add('entering');
-    launchPapelPicado(); // 🎊 Papel picado celeste y blanco
+    launchPapelPicado();
     setTimeout(() => {
         showStep(1);
         document.body.classList.remove('entering');
@@ -881,18 +922,13 @@ function confirmBet(){
 }
 
 /* =========================
-   WHATSAPP
+   ABRIR CHAT DEL BOT EN TELEGRAM (NO WHATSAPP)
 ========================= */
 
-function sendWhatsApp(){
-    const data = window.betData;
-    if(!data) return;
-    const msg = `🎟️ *ESTADIO APUESTA* 🎟️%0A%0A` +
-                `⚽ ${MATCH.homeTeam} vs ${MATCH.awayTeam}%0A` +
-                `🎯 ${data.icon} ${data.name}%0A` +
-                `💰 Entrada: $${data.price}%0A` +
-                `🏆 Premio: $${data.prize}`;
-    window.open(`https://wa.me/${MATCH.whatsapp}?text=${msg}`, '_blank');
+function openTelegramChat(){
+    // Redirige al chat privado del bot en Telegram
+    // El usuario ya está dentro del bot, pero este enlace abre el chat directamente
+    window.open(`https://t.me/${MATCH.botUsername}`, '_blank');
 }
 
 /* =========================
@@ -938,9 +974,11 @@ document.getElementById('helpModal').addEventListener('click', function(e) {
 
 document.getElementById('enterBtn').addEventListener('click', enterStadium);
 document.getElementById('confirmBtn').addEventListener('click', confirmBet);
-document.getElementById('whatsappBtn').addEventListener('click', sendWhatsApp);
 document.getElementById('newBetBtn').addEventListener('click', resetGame);
 document.getElementById('helpIconGame').addEventListener('click', openHelpModal);
+
+// Botón de Telegram (reemplaza a WhatsApp)
+document.getElementById('telegramBtn').addEventListener('click', openTelegramChat);
 
 /* =========================
    INICIALIZAR
