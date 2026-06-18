@@ -433,22 +433,6 @@
         100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
 
-    /* MENSAJE DE PAGO */
-    .pago-info {
-        background: rgba(255,215,0,0.1);
-        border: 1px solid var(--gold);
-        border-radius: 16px;
-        padding: 16px;
-        margin: 16px 0;
-        text-align: left;
-        font-size: 0.85rem;
-        line-height: 1.6;
-    }
-
-    .pago-info strong {
-        color: var(--gold);
-    }
-
     /* MODAL DE AYUDA */
     .modal-overlay {
         position: fixed;
@@ -559,10 +543,6 @@
             font-size: 0.65rem;
             padding: 3px 10px;
         }
-        .pago-info {
-            font-size: 0.75rem;
-            padding: 12px;
-        }
     }
 </style>
 </head>
@@ -657,7 +637,7 @@
         </div>
     </div>
 
-    <!-- PASO 2: RESULTADO - SIN WHATSAPP, SOLO TELEGRAM -->
+    <!-- PASO 2: RESULTADO - PAGO MANUAL POR TELEGRAM -->
     <div id="step-2" class="step">
         <div class="result-card">
             <div class="result-title">
@@ -665,22 +645,8 @@
             </div>
             <div class="summary" id="summary"></div>
 
-            <!-- INSTRUCCIONES DE PAGO POR TELEGRAM -->
-            <div class="pago-info">
-                <p>💬 <strong>Ahora pagá por Telegram:</strong></p>
-                <p>1️⃣ Transferí <strong>$8</strong> a esta cuenta:</p>
-                <p style="background:rgba(0,0,0,0.3); padding:8px; border-radius:8px; margin:6px 0;">
-                    📲 <strong>CBU: 1234567890123456789012</strong>
-                    <br>
-                    Titular: Juan Pérez
-                </p>
-                <p>2️⃣ Enviá el <strong>comprobante</strong> en el chat del bot.</p>
-                <p>✅ Es un chat privado, nadie más lo ve.</p>
-            </div>
-
-            <!-- BOTÓN QUE ABRE EL CHAT DEL BOT (NO WHATSAPP) -->
             <button class="btn-telegram" id="telegramBtn">
-                💬 PAGAR EN EL CHAT
+                💬 ENVIAR POR TELEGRAM
             </button>
             
             <button class="btn-secondary" id="newBetBtn">
@@ -694,7 +660,7 @@
 <script>
 
 /* =========================
-   PAPEL PICADO CELESTE Y BLANCO
+   PAPEL PICADO
 ========================= */
 
 function launchPapelPicado() {
@@ -718,17 +684,13 @@ function launchPapelPicado() {
 
 /* =========================
    CONFIGURACIÓN DEL PARTIDO
-   México vs Corea
-   México / Ninguno: $8 → Premio $20
-   Corea / Ambos: $3 → Premio $20
 ========================= */
 
 const MATCH = {
     homeTeam: "MÉXICO",
     awayTeam: "COREA",
     prize: 20,
-    // EL BOT DE TELEGRAM (reemplazá con el nombre de usuario de tu bot)
-    botUsername: "Gool2026Bot",  
+    botUsername: "Gool2026Bot",  // <--- REEMPLAZÁ CON TU BOT
     prices: {
         home: 8,
         none: 8,
@@ -738,7 +700,7 @@ const MATCH = {
 };
 
 /* =========================
-   CONTADOR SOCIAL (157 personas)
+   CONTADOR SOCIAL
 ========================= */
 
 let betCounter = 157;
@@ -922,13 +884,20 @@ function confirmBet(){
 }
 
 /* =========================
-   ABRIR CHAT DEL BOT EN TELEGRAM (NO WHATSAPP)
+   ENVIAR POR TELEGRAM (MANUAL)
 ========================= */
 
-function openTelegramChat(){
-    // Redirige al chat privado del bot en Telegram
-    // El usuario ya está dentro del bot, pero este enlace abre el chat directamente
-    window.open(`https://t.me/${MATCH.botUsername}`, '_blank');
+function sendTelegram(){
+    const data = window.betData;
+    if(!data) return;
+    const msg = `🎟️ *ESTADIO APUESTA* 🎟️%0A%0A` +
+                `⚽ ${MATCH.homeTeam} vs ${MATCH.awayTeam}%0A` +
+                `🎯 ${data.icon} ${data.name}%0A` +
+                `💰 Entrada: $${data.price}%0A` +
+                `🏆 Premio: $${data.prize}`;
+    
+    // Abre el chat privado con el bot y envía el mensaje pre-cargado
+    window.open(`https://t.me/${MATCH.botUsername}?text=${msg}`, '_blank');
 }
 
 /* =========================
@@ -976,9 +945,7 @@ document.getElementById('enterBtn').addEventListener('click', enterStadium);
 document.getElementById('confirmBtn').addEventListener('click', confirmBet);
 document.getElementById('newBetBtn').addEventListener('click', resetGame);
 document.getElementById('helpIconGame').addEventListener('click', openHelpModal);
-
-// Botón de Telegram (reemplaza a WhatsApp)
-document.getElementById('telegramBtn').addEventListener('click', openTelegramChat);
+document.getElementById('telegramBtn').addEventListener('click', sendTelegram);
 
 /* =========================
    INICIALIZAR
