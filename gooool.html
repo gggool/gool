@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<title>ESTADIO APUESTA - TURQUÍA vs PARAGUAY</title>
+<title>ESTADIO APUESTA - PAÍSES BAJOS vs SUECIA</title>
 
 <style>
     :root {
@@ -558,9 +558,9 @@
             <div class="modal-title">❓ ¿CÓMO FUNCIONA?</div>
             <div class="modal-body">
                 <ul>
-                    <li>🇹🇷 <strong>Solo Local</strong> → Turquía anota 2+ goles</li>
+                    <li>🇳🇱 <strong>Solo Local</strong> → Países Bajos anota 2+ goles</li>
                     <li>🔒 <strong>Ninguno</strong> → Ningún equipo anota 2+ goles</li>
-                    <li>🇵🇾 <strong>Solo Visitante</strong> → Paraguay anota 2+ goles</li>
+                    <li>🇸🇪 <strong>Solo Visitante</strong> → Suecia anota 2+ goles</li>
                     <li>⚽⚽ <strong>Ambos</strong> → Ambos anotan 2+ goles</li>
                 </ul>
                 <p style="margin-top:12px;"><strong>💰 Premio: $20 si aciertas</strong></p>
@@ -596,9 +596,9 @@
             </div>
             
             <div class="match-box">
-                <div class="team">🇹🇷 TURQUÍA</div>
+                <div class="team">🇳🇱 PAÍSES BAJOS</div>
                 <div class="vs-divider">VS</div>
-                <div class="team">🇵🇾 PARAGUAY</div>
+                <div class="team">🇸🇪 SUECIA</div>
             </div>
             
             <div class="hero-question">
@@ -687,15 +687,15 @@ function launchPapelPicado() {
 ========================= */
 
 const MATCH = {
-    homeTeam: "TURQUÍA",
-    awayTeam: "PARAGUAY",
+    homeTeam: "PAÍSES BAJOS",
+    awayTeam: "SUECIA",
     prize: 20,
-    botUsername: "Gool2026Bot",  // <--- REEMPLAZÁ CON TU BOT
+    botUsername: "Gool2026Bot",  // 
     prices: {
-        home: 8,
-        none: 8,
-        away: 3,
-        both: 3
+        home: 7,
+        none: 7,
+        away: 4,
+        both: 4
     }
 };
 
@@ -703,7 +703,7 @@ const MATCH = {
    CONTADOR SOCIAL
 ========================= */
 
-let betCounter = 177;
+let betCounter = 187;
 
 function updateSocialCounter() {
     const counterEl = document.getElementById('socialCounter');
@@ -722,9 +722,9 @@ function incrementCounter() {
 ========================= */
 
 const OPTIONS = [
-    { id:"home", icon:"🇹🇷", name:"SOLO TURQUÍA" },
+    { id:"home", icon:"🇳🇱", name:"SOLO PAÍSES BAJOS" },
     { id:"none", icon:"🔒", name:"NINGUNO" },
-    { id:"away", icon:"🇵🇾", name:"SOLO PARAGUAY" },
+    { id:"away", icon:"🇸🇪", name:"SOLO SUECIA" },
     { id:"both", icon:"⚽⚽", name:"AMBOS" }
 ];
 
