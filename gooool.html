@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<title>ESTADIO APUESTA - MÉXICO vs COREA</title>
+<title>ESTADIO APUESTA - TURQUÍA vs PARAGUAY</title>
 
 <style>
     :root {
@@ -558,9 +558,9 @@
             <div class="modal-title">❓ ¿CÓMO FUNCIONA?</div>
             <div class="modal-body">
                 <ul>
-                    <li>🇲🇽 <strong>Solo Local</strong> → México anota 2+ goles</li>
+                    <li>🇹🇷 <strong>Solo Local</strong> → Turquía anota 2+ goles</li>
                     <li>🔒 <strong>Ninguno</strong> → Ningún equipo anota 2+ goles</li>
-                    <li>🇰🇷 <strong>Solo Visitante</strong> → Corea anota 2+ goles</li>
+                    <li>🇵🇾 <strong>Solo Visitante</strong> → Paraguay anota 2+ goles</li>
                     <li>⚽⚽ <strong>Ambos</strong> → Ambos anotan 2+ goles</li>
                 </ul>
                 <p style="margin-top:12px;"><strong>💰 Premio: $20 si aciertas</strong></p>
@@ -596,9 +596,9 @@
             </div>
             
             <div class="match-box">
-                <div class="team">🇲🇽 MÉXICO</div>
+                <div class="team">🇹🇷 TURQUÍA</div>
                 <div class="vs-divider">VS</div>
-                <div class="team">🇰🇷 COREA</div>
+                <div class="team">🇵🇾 PARAGUAY</div>
             </div>
             
             <div class="hero-question">
@@ -637,7 +637,7 @@
         </div>
     </div>
 
-    <!-- PASO 2: RESULTADO - PAGO MANUAL POR TELEGRAM -->
+    <!-- PASO 2: RESULTADO -->
     <div id="step-2" class="step">
         <div class="result-card">
             <div class="result-title">
@@ -687,10 +687,10 @@ function launchPapelPicado() {
 ========================= */
 
 const MATCH = {
-    homeTeam: "MÉXICO",
-    awayTeam: "COREA",
+    homeTeam: "TURQUÍA",
+    awayTeam: "PARAGUAY",
     prize: 20,
-    botUsername: "Gool2026Bot",  // <--- REEMPLAZÁ CON TU BOT
+    botUsername: "estadioapuesta_bot",  // <--- REEMPLAZÁ CON TU BOT
     prices: {
         home: 8,
         none: 8,
@@ -722,9 +722,9 @@ function incrementCounter() {
 ========================= */
 
 const OPTIONS = [
-    { id:"home", icon:"🇲🇽", name:"SOLO MÉXICO" },
+    { id:"home", icon:"🇹🇷", name:"SOLO TURQUÍA" },
     { id:"none", icon:"🔒", name:"NINGUNO" },
-    { id:"away", icon:"🇰🇷", name:"SOLO COREA" },
+    { id:"away", icon:"🇵🇾", name:"SOLO PARAGUAY" },
     { id:"both", icon:"⚽⚽", name:"AMBOS" }
 ];
 
@@ -870,7 +870,6 @@ function confirmBet(){
         <p style="margin-top:12px; font-size:0.75rem; color:#FFD700;">
             📊 La opción subió a <strong>$${currentPrices[selectedOption.id]}</strong>
         </p>
-        <p style="font-size:0.65rem; color:#aaa;">⚡ Las otras opciones bajaron -$1</p>
     `;
     
     window.betData = {
@@ -896,7 +895,6 @@ function sendTelegram(){
                 `💰 Entrada: $${data.price}%0A` +
                 `🏆 Premio: $${data.prize}`;
     
-    // Abre el chat privado con el bot y envía el mensaje pre-cargado
     window.open(`https://t.me/${MATCH.botUsername}?text=${msg}`, '_blank');
 }
 
