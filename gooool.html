@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-<title>ESTADIO APUESTA - PAÍSES BAJOS vs SUECIA</title>
+<title>ESTADIO APUESTA - URUGUAY vs CABO VERDE</title>
 
 <style>
     :root {
@@ -558,9 +558,9 @@
             <div class="modal-title">❓ ¿CÓMO FUNCIONA?</div>
             <div class="modal-body">
                 <ul>
-                    <li>🇳🇱 <strong>Solo Local</strong> → Países Bajos anota 2+ goles</li>
+                    <li>🇺🇾 <strong>Solo Local</strong> → Uruguay anota 2+ goles</li>
                     <li>🔒 <strong>Ninguno</strong> → Ningún equipo anota 2+ goles</li>
-                    <li>🇸🇪 <strong>Solo Visitante</strong> → Suecia anota 2+ goles</li>
+                    <li>🇨🇻 <strong>Solo Visitante</strong> → Cabo Verde anota 2+ goles</li>
                     <li>⚽⚽ <strong>Ambos</strong> → Ambos anotan 2+ goles</li>
                 </ul>
                 <p style="margin-top:12px;"><strong>💰 Premio: $20 si aciertas</strong></p>
@@ -596,9 +596,9 @@
             </div>
             
             <div class="match-box">
-                <div class="team">🇳🇱 PAÍSES BAJOS</div>
+                <div class="team">🇺🇾 URUGUAY</div>
                 <div class="vs-divider">VS</div>
-                <div class="team">🇸🇪 SUECIA</div>
+                <div class="team">🇨🇻 CABO VERDE</div>
             </div>
             
             <div class="hero-question">
@@ -606,7 +606,7 @@
             </div>
             
             <div class="social-proof" id="socialCounter">
-                🔥 177 personas ya eligieron una jugada
+                🔥 207 personas ya eligieron una jugada
             </div>
             
             <button class="btn-main" id="enterBtn">
@@ -687,23 +687,23 @@ function launchPapelPicado() {
 ========================= */
 
 const MATCH = {
-    homeTeam: "PAÍSES BAJOS",
-    awayTeam: "SUECIA",
+    homeTeam: "URUGUAY",
+    awayTeam: "CABO VERDE",
     prize: 20,
-    botUsername: "Gool2026Bot",  // 
+    botUsername: "estadioapuesta_bot",  // <--- REEMPLAZÁ CON TU BOT
     prices: {
-        home: 7,
-        none: 7,
-        away: 4,
-        both: 4
+        home: 10,
+        none: 10,
+        away: 1,
+        both: 1
     }
 };
 
 /* =========================
-   CONTADOR SOCIAL
+   CONTADOR SOCIAL (207 personas)
 ========================= */
 
-let betCounter = 187;
+let betCounter = 207;
 
 function updateSocialCounter() {
     const counterEl = document.getElementById('socialCounter');
@@ -722,9 +722,9 @@ function incrementCounter() {
 ========================= */
 
 const OPTIONS = [
-    { id:"home", icon:"🇳🇱", name:"SOLO PAÍSES BAJOS" },
+    { id:"home", icon:"🇺🇾", name:"SOLO URUGUAY" },
     { id:"none", icon:"🔒", name:"NINGUNO" },
-    { id:"away", icon:"🇸🇪", name:"SOLO SUECIA" },
+    { id:"away", icon:"🇨🇻", name:"SOLO CABO VERDE" },
     { id:"both", icon:"⚽⚽", name:"AMBOS" }
 ];
 
@@ -788,7 +788,7 @@ function updatePricesAfterBet(optionId){
         }
     }
     for(let key in newPrices){
-        if(newPrices[key] < 2) newPrices[key] = 2;
+        if(newPrices[key] < 1) newPrices[key] = 1;
         if(newPrices[key] > 30) newPrices[key] = 30;
     }
     currentPrices = newPrices;
